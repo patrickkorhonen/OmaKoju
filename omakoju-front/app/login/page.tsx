@@ -1,13 +1,15 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { loginSession } from "../../lib";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    //console.log(name, email, password);
     try {
       const response = await fetch("http://localhost:4000/auth/login", {
         method: "POST",
@@ -17,15 +19,25 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
-      console.log(data);
+      if (response.ok) {
+        console.log("Login successful");
+        console.log(data);
+        
+        await loginSession(data);
+        router.push("/");
+
+      } else { 
+        console.log("Login failed");
+      }
     } catch (error) {
       console.error(error);
     }
+
   };
 
   return (
     <main className="flex flex-col h-full bg-[#013220]">
-      <p className="text-white items-start font-bold text-5xl p-4">OmaKoju</p>
+      <Link href={"/"} className="text-white items-start font-bold text-5xl p-4">OmaKoju</Link>
       <div className="mt-40">
         <div className="bg-white h-max shadow-xl p-4 rounded-lg w-1/5 mx-auto font-semibold">
           <h1 className="text-center text-2xl font-bold mb-2">Log in</h1>
