@@ -1,8 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { setUser } from "../../../lib";
+import { useRouter } from "next/navigation";
 
 export default function Signup() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +22,10 @@ export default function Signup() {
         body: JSON.stringify({ email, password, name }),
       });
       const data = await response.json();
-      console.log(data);
+      if (response.ok) {
+        await setUser(data.userInfo);
+        router.push("/");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -27,7 +33,12 @@ export default function Signup() {
 
   return (
     <main className="flex flex-col h-full bg-[#013220]">
-      <p className="text-white items-start font-bold text-5xl p-4">OmaKoju</p>
+      <Link
+        href={"/"}
+        className="text-white items-start font-bold text-5xl p-4"
+      >
+        OmaKoju
+      </Link>
       <div className="mt-40">
         <div className="bg-white h-max shadow-xl p-4 rounded-lg w-1/5 mx-auto font-semibold">
           <h1 className="text-center text-2xl font-bold mb-2">Sign up</h1>

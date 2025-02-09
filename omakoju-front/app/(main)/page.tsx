@@ -2,7 +2,6 @@
 
 
 
-
 export default function Home() {
 
 
@@ -10,7 +9,7 @@ export default function Home() {
     <main className="h-full p-4">
 
         <div>
-          <div>OmaKoju</div>
+          <div className="p-40">OmaKoju</div>
         </div>
 
     </main>

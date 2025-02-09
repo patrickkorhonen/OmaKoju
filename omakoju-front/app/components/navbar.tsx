@@ -29,10 +29,20 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="flex justify-between bg-[#013220] p-3">
-      <Link className="text-2xl text-white font-bold" href="/">
+    <div className="h-20 flex justify-between bg-[#013220] p-5">
+      <Link
+        className="text-2xl place-self-center text-white font-bold"
+        href="/"
+      >
         Omakoju
       </Link>
+      {user && (
+        <input
+          placeholder="Search for a shop or product"
+          className="rounded-full w-1/4 bg-slate-50 outline-none px-4 focus:placeholder-transparent"
+        >
+        </input>
+      )}
       {loading ? (
         <></>
       ) : user ? (
@@ -53,9 +63,12 @@ const Navbar = () => {
           >
             Log in
           </Link>
-          <button className="bg-[#B8860B] text-white rounded px-2 font-bold">
-            <Link href="/signup">Sign up</Link>
-          </button>
+          <Link
+            href="/signup"
+            className="bg-[#B8860B] text-white rounded px-2 font-bold flex items-center"
+          >
+            <p>Sign up</p>
+          </Link>
         </div>
       )}
     </div>
