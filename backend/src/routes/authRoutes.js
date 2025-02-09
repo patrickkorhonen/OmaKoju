@@ -1,88 +1,99 @@
-import express from 'express'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import prisma from '../prismaClient.js'
+import express from "express";
+import bcrypt from "bcryptjs";
+import prisma from "../prismaClient.js";
+import { createAccessToken, createRefreshToken } from "../utils.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/register', async (req, res) => {
-    const { email, password, name } = req.body
+router.post("/register", async (req, res) => {
+  const { email, password, name } = req.body;
 
-    const hashedPassword = bcrypt.hashSync(password, 8)
+  const hashedPassword = bcrypt.hashSync(password, 8);
 
-    try {
-        const user = await prisma.user.create({
-            data: {
-                email,
-                passwordHash: hashedPassword,
-                name
-            }
-        })
+  try {
+    const user = await prisma.user.create({
+      data: {
+        email,
+        passwordHash: hashedPassword,
+        name,
+      },
+    });
 
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' })
-        const userInfo = {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role
-        }
-        res.json({ token, userInfo })
-    } catch (err) {
-        console.log(err.message)
-        res.sendStatus(503)
+    const accessToken = createAccessToken(user);
+    const refreshToken = createRefreshToken(user);
+    const userInfo = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 60 * 60 * 24 * 1000),
+    });
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+    });
+    res.json({
+      userInfo,
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.sendStatus(503);
+  }
+});
+
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
     }
-})
 
-router.post('/login', async (req, res) => {
-    
-    const { email, password } = req.body
-
-    try {
-        const user = await prisma.user.findUnique({
-            where: {
-                email: email
-            }
-        })
-        
-        if (!user) { return res.status(404).send({ message: "User not found" }) }
-        
-        const passwordIsValid = bcrypt.compareSync(password, user.passwordHash)
-        console.log("here")
-        if (!passwordIsValid) { return res.status(401).send({ message: "Invalid password" }) }
-        console.log(user)
-        
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' })
-        const userInfo = {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role
-        }
-        res.json({ token, userInfo })
-    } catch (err) {
-        console.log(err.message)
-        res.sendStatus(503)
+    const passwordIsValid = bcrypt.compareSync(password, user.passwordHash);
+    if (!passwordIsValid) {
+      return res.status(401).send({ message: "Invalid password" });
     }
-})
+    console.log(user);
 
-router.post('/refresh', async (req, res) => {
-    const { token } = req.body
+    const userInfo = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
+    const accessToken = createAccessToken(user);
+    const refreshToken = createRefreshToken(user);
+    console.log("tokenit", accessToken, refreshToken);
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 60 * 60 * 24 * 1000),
+    });
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+    });
+    res.json({
+      userInfo,
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.sendStatus(503);
+  }
+});
 
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        const user = await prisma.user.findUnique({
-            where: {
-                id: decoded.id
-            }
-        })
+router.post("/logout", (req, res) => {
+  res.clearCookie("refreshToken");
+  res.clearCookie("accessToken");
+  res.json({ message: "Logged out" });
+});
 
-        const newToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' })
-        res.json({ token: newToken, user })
-    } catch (err) {
-        console.log(err.message)
-        res.sendStatus(503)
-    }
-})
-
-
-export default router
+export default router;

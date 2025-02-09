@@ -1,7 +1,14 @@
-import { NextRequest } from "next/server";
-import  { updateSession } from "./lib";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
-    console.log("Middleware updates session");
-    return await updateSession(request);
+    const session = request.cookies.get("refreshToken")?.value;
+    const currentPath = request.nextUrl.pathname;
+
+    if (session && currentPath == "/login" || currentPath == "/register") {
+        console.log("Session exists, redirecting to /");
+        return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    return NextResponse.next();
 }
+

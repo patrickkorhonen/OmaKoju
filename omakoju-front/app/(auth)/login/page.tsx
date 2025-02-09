@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { loginSession } from "../../lib";
+import { setUser } from "../../../lib";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
@@ -13,37 +13,42 @@ export default function Login() {
     try {
       const response = await fetch("http://localhost:4000/auth/login", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
+      console.log("data", data);
       if (response.ok) {
-        console.log("Login successful");
-        console.log(data);
-        
-        await loginSession(data);
+        await setUser(data.userInfo);
         router.push("/");
-
-      } else { 
+      } else {
         console.log("Login failed");
       }
     } catch (error) {
       console.error(error);
     }
-
   };
 
   return (
     <main className="flex flex-col h-full bg-[#013220]">
-      <Link href={"/"} className="text-white items-start font-bold text-5xl p-4">OmaKoju</Link>
+      <Link
+        href={"/"}
+        className="text-white items-start font-bold text-5xl p-4"
+      >
+        OmaKoju
+      </Link>
       <div className="mt-40">
         <div className="bg-white h-max shadow-xl p-4 rounded-lg w-1/5 mx-auto font-semibold">
           <h1 className="text-center text-2xl font-bold mb-2">Log in</h1>
           <p className="text-center text-sm mb-4 text-slate-400 ">
             Don&apos;t have an account yet?{" "}
-            <Link href="/signup" className="text-blue-500 underline underline-offset-2">
+            <Link
+              href="/signup"
+              className="text-blue-500 underline underline-offset-2"
+            >
               Sign up
             </Link>
           </p>
