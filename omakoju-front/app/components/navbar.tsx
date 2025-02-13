@@ -29,48 +29,48 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="h-20 flex justify-between bg-[#013220] p-5">
-      <Link
-        className="text-2xl place-self-center text-white font-bold"
-        href="/"
-      >
-        Omakoju
-      </Link>
-      {user && (
-        <input
-          placeholder="Search for a shop or product"
-          className="rounded-full w-1/4 bg-slate-50 outline-none px-4 focus:placeholder-transparent"
-        >
-        </input>
-      )}
-      {loading ? (
-        <></>
-      ) : user ? (
-        <div className="flex gap-6 mx-10">
-          <p className="text-white place-self-center">{user.name}</p>
-          <button
-            onClick={() => handleLogout()}
-            className="bg-[#B8860B] text-white rounded px-2 font-bold"
-          >
-            Log out
-          </button>
-        </div>
-      ) : (
-        <div className="flex gap-6 mx-10">
-          <Link
-            href="/login"
-            className="text-white place-self-center underline underline-offset-2"
-          >
-            Log in
-          </Link>
-          <Link
-            href="/signup"
-            className="bg-[#B8860B] text-white rounded px-2 font-bold flex items-center"
-          >
-            <p>Sign up</p>
-          </Link>
-        </div>
-      )}
+    <div className="flex justify-center bg-[#e4d5b7]">
+      <div className="w-2/3 grid grid-cols-3 py-5 h-20">
+        <Link className="text-2xl place-self-center w-full font-bold" href="/">
+          Omakoju
+        </Link>
+        {user ? (
+          <input
+            placeholder="Search for a shop or product"
+            className="rounded-full w-full bg-slate-50 outline-none px-4 focus:placeholder-transparent"
+          ></input>
+        ) : (
+          <div></div>
+        )}
+        {loading ? (
+          <></>
+        ) : user ? (
+          <div className="flex gap-6 w-full justify-end">
+            <p className=" place-self-center">{user.name}</p>
+            <button
+              onClick={() => handleLogout()}
+              className="bg-[#013220] hover:bg-[#274d3f] text-white px-4 font-bold"
+            >
+              Log out
+            </button>
+          </div>
+        ) : (
+          <div className="flex gap-6 w-full justify-end">
+            <Link
+              href="/login"
+              className="text-white place-self-center underline underline-offset-2"
+            >
+              Log in
+            </Link>
+            <Link
+              href="/signup"
+              className="bg-[#013220] hover:bg-[#274d3f] text-white px-4 font-bold flex items-center"
+            >
+              <p>Sign up</p>
+            </Link>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
