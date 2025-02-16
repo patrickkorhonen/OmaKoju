@@ -94,9 +94,9 @@ const TrendingShops = () => {
         </AccordionTrigger>
         <AccordionContent>
           <Carousel className="mx-12 ">
-            <CarouselPrevious className="text-2xl font-bold">
+            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded">
             </CarouselPrevious>
-            <CarouselNext className="text-2xl font-bold"></CarouselNext>
+            <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded"></CarouselNext>
             <CarouselContent>
               {dummydata.slice(0, 8).map((shop, index) => (
                 <CarouselItem className="basis-1/4" key={index}>
@@ -106,6 +106,71 @@ const TrendingShops = () => {
                     width={0}
                     height={0}
                     style={{ width: "100%", height: "auto" }}
+                    className="rounded"
+                  />
+                  <div className="mt-2">
+                    <h2 className="text-xl font-bold">{shop.name}</h2>
+                    <p className="text-sm">{shop.description}</p>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded"/>
+            <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded"/>
+          </Carousel>
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="new" className="border-b-2 border-black">
+        <AccordionTrigger className="text-2xl font-bold hover:no-underline">
+          Newest Shops
+        </AccordionTrigger>
+        <AccordionContent>
+          <Carousel className="mx-12 ">
+            <CarouselPrevious className="text-2xl font-bold">
+            </CarouselPrevious>
+            <CarouselNext className="text-2xl font-bold"></CarouselNext>
+            <CarouselContent>
+              {dummydata.slice(8, 16).map((shop, index) => (
+                <CarouselItem className="basis-1/4" key={index}>
+                  <Image
+                    src={shop.image}
+                    alt={shop.name}
+                    width={0}
+                    height={0}
+                    style={{ width: "100%", height: "auto" }}
+                    className="rounded"
+                  />
+                  <div className="mt-2">
+                    <h2 className="text-xl font-bold">{shop.name}</h2>
+                    <p className="text-sm">{shop.description}</p>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded"/>
+            <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded"/>
+          </Carousel>
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="favorites" className="border-b-2 border-black">
+        <AccordionTrigger className="text-2xl font-bold hover:no-underline">
+          Your favorites
+        </AccordionTrigger>
+        <AccordionContent>
+          <Carousel className="mx-12 ">
+            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded">
+            </CarouselPrevious>
+            <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded"></CarouselNext>
+            <CarouselContent>
+              {dummydata.slice(8, 16).map((shop, index) => (
+                <CarouselItem className="basis-1/4" key={index}>
+                  <Image
+                    src={shop.image}
+                    alt={shop.name}
+                    width={0}
+                    height={0}
+                    style={{ width: "100%", height: "auto" }}
+                    className="rounded"
                   />
                   <div className="mt-2">
                     <h2 className="text-xl font-bold">{shop.name}</h2>
@@ -117,42 +182,6 @@ const TrendingShops = () => {
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="new" className="border-b-2 border-black">
-        <AccordionTrigger className="text-2xl font-bold hover:no-underline">
-          Newest Shops
-        </AccordionTrigger>
-        <AccordionContent>
-          <div className="grid grid-cols-4 gap-6">
-            {dummydata.slice(8, 16).map((shop, index) => (
-              <div
-                key={index}
-                className="flex flex-col p-6 bg-gray-100 rounded"
-              >
-                <h2 className="text-xl font-bold">{shop.name}</h2>
-                <p className="text-sm">{shop.description}</p>
-              </div>
-            ))}
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="favorites" className="border-b-2 border-black">
-        <AccordionTrigger className="text-2xl font-bold hover:no-underline">
-          Your favorites
-        </AccordionTrigger>
-        <AccordionContent>
-          <div className="grid grid-cols-4 gap-6">
-            {dummydata.slice(8, 16).map((shop, index) => (
-              <div
-                key={index}
-                className="flex flex-col p-6 bg-gray-100 rounded"
-              >
-                <h2 className="text-xl font-bold">{shop.name}</h2>
-                <p className="text-sm">{shop.description}</p>
-              </div>
-            ))}
-          </div>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

@@ -8,6 +8,7 @@ export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogin = async () => {
     try {
@@ -20,10 +21,11 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
-      console.log("data", data);
       if (response.ok) {
         await setUser(data.userInfo);
         router.push("/");
+      } else if (response.status === 404 || response.status === 401) {
+        setErrorMessage("Invalid email or password");
       } else {
         console.log("Login failed");
       }
@@ -59,7 +61,10 @@ export default function Login() {
               type="email"
               id="email"
               placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setErrorMessage("");
+              }}
             />
             <label htmlFor="password"></label>
             <input
@@ -67,8 +72,14 @@ export default function Login() {
               id="password"
               placeholder="Password"
               type="password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => { 
+                setPassword(e.target.value);
+                setErrorMessage("");
+              }}
             />
+            {errorMessage && (
+              <p className="text-red-500 text-sm">{errorMessage}</p>
+            )}
             <a
               href="#"
               className="text-sm underline underline-offset-2 text-blue-500"

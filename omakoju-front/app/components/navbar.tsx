@@ -49,7 +49,7 @@ const Navbar = () => {
             <p className=" place-self-center">{user.name}</p>
             <button
               onClick={() => handleLogout()}
-              className="bg-[#013220] hover:bg-[#274d3f] text-white px-4 font-bold"
+              className="bg-[#013220] hover:bg-[#274d3f] text-white rounded-sm px-4 font-bold"
             >
               Log out
             </button>
@@ -58,13 +58,13 @@ const Navbar = () => {
           <div className="flex gap-6 w-full justify-end">
             <Link
               href="/login"
-              className="text-white place-self-center underline underline-offset-2"
+              className="place-self-center underline underline-offset-2"
             >
               Log in
             </Link>
             <Link
               href="/signup"
-              className="bg-[#013220] hover:bg-[#274d3f] text-white px-4 font-bold flex items-center"
+              className="bg-[#013220] hover:bg-[#274d3f] text-white rounded-sm px-4 font-bold flex items-center"
             >
               <p>Sign up</p>
             </Link>

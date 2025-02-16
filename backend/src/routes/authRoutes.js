@@ -8,9 +8,18 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
   const { email, password, name } = req.body;
 
-  const hashedPassword = bcrypt.hashSync(password, 8);
-
   try {
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (existingUser) {
+      return res.status(409).send({message: "Email is already in use"});
+    }
+
+  const hashedPassword = bcrypt.hashSync(password, 8);
     const user = await prisma.user.create({
       data: {
         email,

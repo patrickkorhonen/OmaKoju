@@ -9,9 +9,41 @@ export default function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailAlreadyInUse, setEmailAlreadyInUse] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const validatePassword = (password: string) => {
+    return password.length >= 6;
+  };
 
   const handleSignup = async () => {
-    //console.log(name, email, password);
+    if (!name || !email || !password) {
+      setErrorMessage("Please fill in all fields.");
+      return;
+    }
+
+    if (!validateEmail(email) && !validatePassword(password)) {
+      setErrorMessage(
+        "Please enter a valid email address and password must be at least 6 characters long."
+      );
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setErrorMessage("Please enter a valid email address.");
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setErrorMessage("Password must be at least 6 characters long.");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:4000/auth/register", {
         method: "POST",
@@ -22,15 +54,19 @@ export default function Signup() {
         body: JSON.stringify({ email, password, name }),
       });
       const data = await response.json();
+      console.log("data", data);
       if (response.ok) {
         await setUser(data.userInfo);
         router.push("/");
+      } else if (response.status === 409) {
+        console.log(response);
+        console.log(response.status);
+        setEmailAlreadyInUse(true);
       }
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
     <main className="flex flex-col h-full bg-[#013220]">
       <Link
@@ -57,24 +93,42 @@ export default function Signup() {
               className="w-full border text-sm rounded-lg py-2 px-3"
               id="name"
               placeholder="Name"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setName(e.target.value);
+                setErrorMessage("");
+              }}
             />
             <label htmlFor="email"></label>
             <input
-              className="w-full border text-sm rounded-lg py-2 px-3"
+              className={`w-full border text-sm rounded-lg py-2 px-3 ${
+                emailAlreadyInUse ? "border-red-500" : ""
+              }`}
               type="email"
               id="email"
               placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailAlreadyInUse(false);
+                setErrorMessage("");
+              }}
             />
+            {emailAlreadyInUse && (
+              <p className="text-red-500 text-sm">Email is already in use</p>
+            )}
             <label htmlFor="password"></label>
             <input
               className="w-full border text-sm rounded-lg py-2 px-3"
               id="password"
               type="password"
               placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value)
+                setErrorMessage("");
+              }}
             />
+            {errorMessage && (
+              <p className="text-red-500 text-sm">{errorMessage}</p>
+            )}
             <a
               href="#"
               className="text-sm underline underline-offset-2 text-blue-500"
