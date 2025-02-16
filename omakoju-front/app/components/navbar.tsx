@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getUser, logoutSession } from "@/lib";
 import { User } from "@/interface";
 import Link from "next/link";
+import Image from "next/image";
 
 const Navbar = () => {
   const [user, setUser] = useState<User>();
@@ -32,7 +33,13 @@ const Navbar = () => {
     <div className="flex justify-center bg-[#e4d5b7]">
       <div className="w-2/3 grid grid-cols-3 py-5 h-20">
         <Link className="text-2xl place-self-center w-full font-bold" href="/">
-          Omakoju
+          <Image
+                              src={"/logo.png"}
+                              alt={"logo"}
+                              width={0}
+                              height={0}
+                              style={{ width: "40%", height: "auto" }}
+                            />
         </Link>
         {user ? (
           <input
