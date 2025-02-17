@@ -6,6 +6,8 @@ import { cookies } from "next/headers";
 
 export const logoutSession = async () => {
   (await cookies()).set("user", "", { expires: new Date(0) });
+  (await cookies()).set("refreshToken", "", { expires: new Date(0) });
+  (await cookies()).set("accessToken", "", { expires: new Date(0) });
 };
 
 export async function setUser(data: any) {

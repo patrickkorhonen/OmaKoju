@@ -94,6 +94,7 @@ model Review {
 enum Role {
   BUYER
   SELLER
+  ADMIN
 }
 
 enum OrderStatus {

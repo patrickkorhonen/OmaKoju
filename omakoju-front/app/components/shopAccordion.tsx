@@ -12,6 +12,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
+import Link from "next/link";
 
 const dummydata = [
   {
@@ -89,7 +90,7 @@ const TrendingShops = () => {
       type="multiple"
     >
       <AccordionItem value="trending" className="border-b-2 border-black">
-        <AccordionTrigger className="text-2xl font-bold hover:no-underline">
+        <AccordionTrigger className="text-2xl font-bold rounded hover:no-underline">
           Trending Shops
         </AccordionTrigger>
         <AccordionContent>
@@ -100,6 +101,7 @@ const TrendingShops = () => {
             <CarouselContent>
               {dummydata.slice(0, 8).map((shop, index) => (
                 <CarouselItem className="basis-1/4" key={index}>
+                <Link href={`/shop/${shop.name.replace(" ", "-")}`} key={index}>
                   <Image
                     src={shop.image}
                     alt={shop.name}
@@ -112,6 +114,7 @@ const TrendingShops = () => {
                     <h2 className="text-xl font-bold">{shop.name}</h2>
                     <p className="text-sm">{shop.description}</p>
                   </div>
+                </Link>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -132,6 +135,7 @@ const TrendingShops = () => {
             <CarouselContent>
               {dummydata.slice(8, 16).map((shop, index) => (
                 <CarouselItem className="basis-1/4" key={index}>
+                  
                   <Image
                     src={shop.image}
                     alt={shop.name}
