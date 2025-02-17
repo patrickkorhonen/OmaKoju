@@ -41,9 +41,9 @@ export default async function Shop({
           <div className="flex flex-col justify-between col-span-2">
             <p className="font-bold text-4xl">{name}</p>
             <span>
-              <p className="text-slate-500">dummyemail@example.com</p>
-              <p className="text-slate-500">08012345678</p>
-              <p className="text-slate-500">Lagos, Nigeria</p>
+              <p className="text-slate-500 text-sm">dummyemail@example.com</p>
+              <p className="text-slate-500 text-sm">08012345678</p>
+              <p className="text-slate-500 text-sm">Lagos, Nigeria</p>
             </span>
           </div>
           <div className="col-span-4 bg-slate-100 rounded-md p-4">
