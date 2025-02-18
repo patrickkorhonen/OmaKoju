@@ -1,6 +1,18 @@
 "use client";
 import { useState } from "react";
 import ShopImageForm from "@/app/components/shopImageForm";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import Link from "next/link";
 
 export default function Newshop() {
   const [shopName, setShopName] = useState("");
@@ -66,7 +78,7 @@ export default function Newshop() {
               htmlFor="email"
               className="text-sm font-medium text-gray-700"
             >
-              Email
+              Shop email
             </label>
             <input
               type="email"
@@ -83,7 +95,7 @@ export default function Newshop() {
               htmlFor="phone"
               className="text-sm font-medium text-gray-700"
             >
-              Phone number
+              Shop phone number
             </label>
             <input
               type="tel"
@@ -110,9 +122,34 @@ export default function Newshop() {
               onChange={(e) => setDescription(e.target.value)}
             />
             <div className="grid grid-cols-3 gap-4">
-              <button className="bg-red-500 text-white rounded font-bold p-2">
-                Cancel
-              </button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <button className="bg-red-500 text-white rounded font-bold p-2">
+                    Cancel
+                  </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="bg-white">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      current progress.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter className="flex justify-between w-full">
+                    <div className="w-full">
+                    <AlertDialogCancel className="border-0 shadow bg-slate-50 rounded">No</AlertDialogCancel>
+                    </div>
+                    <div>
+                      <Link href={"/"}>
+                    <button className="text-sm rounded bg-slate-50 shadow py-2 px-4">Yes</button>
+                    </Link>
+                    </div>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
               <button
                 onClick={() => handleNext()}
                 className="bg-bgGreen rounded font-bold text-white col-span-2 p-2"

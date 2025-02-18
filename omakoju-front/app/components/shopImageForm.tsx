@@ -10,7 +10,7 @@ export default function ShopImageForm({ handleBack }: ShopImageFormProps) {
   return (
     <div>
                 <label htmlFor="logo" className="text-sm font-medium text-gray-700">
-                  Logo
+                  Logo*
                 </label>
                 <input
                   type="file"
@@ -25,15 +25,14 @@ export default function ShopImageForm({ handleBack }: ShopImageFormProps) {
                   }}
                 />
                 {logo && (
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-700">Preview:</p>
-                    <div className="relative w-40 h-40">
+                  <div className="">
+                    <div className="relative w-32 h-32">
                       <Image
                         src={logo}
                         alt="Logo Preview"
                         layout="fill"
                         objectFit="cover"
-                        className="rounded-full"
+                        className="rounded-full border"
                       />
                     </div>
                   </div>
@@ -48,7 +47,7 @@ export default function ShopImageForm({ handleBack }: ShopImageFormProps) {
                   <button
                     className="bg-bgGreen rounded font-bold text-white col-span-2 p-2"
                   >
-                    Next
+                    Create
                   </button>
                 </div>
               </div>
