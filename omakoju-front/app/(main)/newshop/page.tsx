@@ -3,7 +3,6 @@ import { useState } from "react";
 import ShopImageForm from "@/app/components/shopImageForm";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,

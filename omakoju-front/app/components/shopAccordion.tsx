@@ -13,11 +13,14 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { GETshops } from "../api/shop";
 
 const dummydata = [
   {
     name: "Tony's Tools",
-    description: "A wide selection of tools and equipment. Everything you need for your next project.",
+    description:
+      "A wide selection of tools and equipment. Everything you need for your next project.",
     image: "/photos/tools.jpg",
   },
   {
@@ -28,7 +31,7 @@ const dummydata = [
   {
     name: "Fashion Fiesta",
     description: "",
-    image: "/photos/tools.jpg",
+    image: "/photos/computer-profile.avif",
   },
   {
     name: "Book Nook",
@@ -82,60 +85,84 @@ const dummydata = [
   },
 ];
 
+interface shop {
+  id: string;
+  shopName: string;
+  description: string;
+}
+
 const TrendingShops = () => {
+  const [shops, setShops] = useState<shop[]>([]);
+
+  useEffect(() => {
+    const fetchShops = async () => {
+      const response = await GETshops();
+      if (response) {
+        const data = await response.json();
+        setShops(data);
+      }
+    };
+    fetchShops()
+  }, []);
+
   return (
     <Accordion
       className="flex flex-col gap-20"
       defaultValue={["trending", "new", "favorites"]}
       type="multiple"
     >
-      <AccordionItem value="trending" className="border-b-2 border-black">
-        <AccordionTrigger className="text-2xl font-bold rounded hover:no-underline">
-          Trending Shops
+      <AccordionItem
+        value="trending"
+        className=" bg-gray-50 p-4 rounded-xl border-0"
+      >
+        <AccordionTrigger className="text-xl uppercase font-bold rounded hover:no-underline">
+          Trending
         </AccordionTrigger>
         <AccordionContent>
           <Carousel className="mx-12 ">
-            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded">
-            </CarouselPrevious>
+            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded"></CarouselPrevious>
             <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded"></CarouselNext>
             <CarouselContent>
-              {dummydata.slice(0, 8).map((shop, index) => (
-                <CarouselItem className="basis-1/4" key={index}>
-                <Link href={`/shop/${shop.name.replace(" ", "-")}`} key={index}>
-                  <Image
-                    src={shop.image}
-                    alt={shop.name}
-                    width={0}
-                    height={0}
-                    style={{ width: "100%", height: "auto" }}
-                    className="rounded"
-                  />
-                  <div className="mt-2">
-                    <h2 className="text-xl font-bold">{shop.name}</h2>
-                    <p className="text-sm">{shop.description}</p>
-                  </div>
-                </Link>
+              {shops.slice(0, 8).map((shop, index) => (
+                <CarouselItem className="basis-1/4 pl-8 pr-8" key={index}>
+                  <Link
+                    href={`/shop/${shop.id}`}
+                    key={index}
+                  >
+                    <div className="relative">
+                      <Image
+                        src={"/photos/tools.jpg"}
+                        alt={shop.shopName}
+                        width={0}
+                        height={0}
+                        style={{ width: "100%", height: "auto" }}
+                        className="rounded"
+                      />
+                    </div>
+                    <div className="mt-2">
+                      <h2 className="text-xl font-bold">{shop.shopName}</h2>
+                      <p className="text-sm truncate">{shop.description}</p>
+                    </div>
+                  </Link>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded"/>
-            <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded"/>
+            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded" />
+            <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded" />
           </Carousel>
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="new" className="border-b-2 border-black">
-        <AccordionTrigger className="text-2xl font-bold hover:no-underline">
-          Newest Shops
+        <AccordionTrigger className="text-xl uppercase  font-bold hover:no-underline">
+          Newest
         </AccordionTrigger>
         <AccordionContent>
           <Carousel className="mx-12 ">
-            <CarouselPrevious className="text-2xl font-bold">
-            </CarouselPrevious>
+            <CarouselPrevious className="text-2xl font-bold"></CarouselPrevious>
             <CarouselNext className="text-2xl font-bold"></CarouselNext>
             <CarouselContent>
               {dummydata.slice(8, 16).map((shop, index) => (
                 <CarouselItem className="basis-1/4" key={index}>
-                  
                   <Image
                     src={shop.image}
                     alt={shop.name}
@@ -151,22 +178,21 @@ const TrendingShops = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded"/>
-            <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded"/>
+            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded" />
+            <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded" />
           </Carousel>
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="favorites" className="border-b-2 border-black">
-        <AccordionTrigger className="text-2xl font-bold hover:no-underline">
+        <AccordionTrigger className="text-xl uppercase font-bold hover:no-underline">
           Your favorites
         </AccordionTrigger>
         <AccordionContent>
           <Carousel className="mx-12 ">
-            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded">
-            </CarouselPrevious>
+            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded"></CarouselPrevious>
             <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded"></CarouselNext>
             <CarouselContent>
-              {dummydata.slice(8, 16).map((shop, index) => (
+              {dummydata.slice(8, 10).map((shop, index) => (
                 <CarouselItem className="basis-1/4" key={index}>
                   <Image
                     src={shop.image}

@@ -30,7 +30,7 @@ model Shop {
   id          String  @id @default(uuid())  
   user        User    @relation(fields: [userId], references: [id])
   userId      String    
-  shopName    String  
+  shopName    String  @unique 
   description String?
   isActive    Boolean @default(true)  
   products    Product[]
