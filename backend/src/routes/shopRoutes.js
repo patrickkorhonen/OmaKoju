@@ -99,6 +99,7 @@ router.get("/:id", async (req, res) => {
         id: slug,
       },
       select: {
+        userId: true,
         shopName: true,
         description: true,
         products: true,

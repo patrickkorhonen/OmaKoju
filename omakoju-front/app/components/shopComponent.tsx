@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { GETshop } from "@/app/api/shop";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import { getUser } from "@/lib";
 
 interface ShopComponentProps {
   id: string;
@@ -11,6 +12,7 @@ interface ShopComponentProps {
 export default function ShopComponent({ id }: ShopComponentProps) {
   const [name, setName] = useState<string>();
   const [description, setDescription] = useState<string>();
+  const [owner, setOwner] = useState(false);
 
   useEffect(() => {
     const fetchShop = async () => {
@@ -19,6 +21,11 @@ export default function ShopComponent({ id }: ShopComponentProps) {
         const data = await response.json();
         setName(data.shopName);
         setDescription(data.description);
+        const userFetch = await getUser();
+        if (userFetch != undefined) {
+          if (userFetch.id === data.userId)
+            setOwner(true)
+        }
       } else {
         window.location.replace("/");
       }
@@ -62,6 +69,8 @@ export default function ShopComponent({ id }: ShopComponentProps) {
               {description}
             </div>
           </section>
+          <hr className="my-4"></hr>
+          {owner && <div>omistaja</div>}
         </div>
       ) : (
         <div className="flex justify-center items-center h-screen">

@@ -4,15 +4,16 @@ import "../globals.css";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 
+
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 });
 
-
 export const metadata: Metadata = {
   title: "Omakoju",
-  description: "Centralized platform for online stores. Find the best shops and customers. Join us now!",
+  description:
+    "Centralized platform for online stores. Find the best shops and customers. Join us now!",
 };
 
 export default function RootLayout({
@@ -20,12 +21,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased flex flex-col`}>
-        <Navbar />
-        {children}
-        <Footer />
+          <Navbar />
+          {children}
+          <Footer />
       </body>
     </html>
   );
