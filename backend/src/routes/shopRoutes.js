@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/create", authMiddleware, async (req, res) => {
   const { shopName, description } = req.body;
   const UID = req.userId;
-
+  console.log("lopukis täällä", shopName, description, UID)
   try {
     const existingShop = await prisma.shop.findUnique({
       where: {
@@ -29,14 +29,22 @@ router.post("/create", authMiddleware, async (req, res) => {
       },
     });
 
-    const updateUserToSeller = await prisma.user.update({
+    const user = await prisma.user.findUnique({
       where: {
-        id: UID,
-      },
-      data: {
-        role: "SELLER",
-      },
-    });
+        id: UID
+      }
+    })
+    if (user.role == "BUYER") {
+      await prisma.user.update({
+        where: {
+          id: UID,
+        },
+        data: {
+          role: "SELLER",
+        },
+      });
+    }
+    
 
     res.json({
       shop,
@@ -61,6 +69,22 @@ router.get("/all", async (req, res) => {
     });
 
     res.json(allShops);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(503);
+  }
+});
+
+router.get("/user", authMiddleware, async (req, res) => {
+  const UID = req.userId;
+  try {
+    const userShops = await prisma.shop.findMany({
+      where: {
+        userId: UID
+      },
+    });
+
+    res.json(userShops);
   } catch (err) {
     console.log(err);
     res.sendStatus(503);

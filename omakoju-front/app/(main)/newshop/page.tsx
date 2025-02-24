@@ -159,7 +159,7 @@ export default function Newshop() {
           </div>
         ) : (
           <div>
-            <ShopImageForm handleBack={handleBack} />
+            <ShopImageForm handleBack={handleBack} shopName={shopName} description={description} />
           </div>
         )}
       </div>

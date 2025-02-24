@@ -16,75 +16,6 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { GETshops } from "../api/shop";
 
-const dummydata = [
-  {
-    name: "Tony's Tools",
-    description:
-      "A wide selection of tools and equipment. Everything you need for your next project.",
-    image: "/photos/tools.jpg",
-  },
-  {
-    name: "Tech Haven",
-    description: "Latest gadgets and electronics",
-    image: "/photos/tech.jpg",
-  },
-  {
-    name: "Fashion Fiesta",
-    description: "",
-    image: "/photos/computer-profile.avif",
-  },
-  {
-    name: "Book Nook",
-    description: "A paradise for book lovers",
-    image: "/photos/tools.jpg",
-  },
-  {
-    name: "Green Thumb",
-    description: "Plants and gardening supplies",
-    image: "/photos/tools.jpg",
-  },
-  {
-    name: "Pet Paradise",
-    description: "Everything for your furry friends",
-    image: "/photos/tools.jpg",
-  },
-  {
-    name: "Gourmet Grocer",
-    description: "High-quality groceries and gourmet foods",
-    image: "/photos/tools.jpg",
-  },
-  {
-    name: "Fitness Fanatic",
-    description: "Gear and supplements for fitness enthusiasts",
-    image: "/photos/tools.jpg",
-  },
-  {
-    name: "Toy Town",
-    description: "Toys and games for kids of all ages",
-    image: "/photos/tools.jpg",
-  },
-  {
-    name: "Artisan Crafts",
-    description: "Handmade crafts and unique gifts",
-    image: "/photos/tools.jpg",
-  },
-  {
-    name: "Beauty Bliss",
-    description: "Skincare and beauty products",
-    image: "/photos/tools.jpg",
-  },
-  {
-    name: "Home Essentials",
-    description: "Everything you need for your home",
-    image: "/photos/tools.jpg",
-  },
-  {
-    name: "Outdoor Outfitters",
-    description: "Gear and apparel for outdoor adventures",
-    image: "/photos/tools.jpg",
-  },
-];
-
 interface shop {
   id: string;
   shopName: string;
@@ -120,8 +51,8 @@ const TrendingShops = () => {
         </AccordionTrigger>
         <AccordionContent>
           <Carousel className="mx-12 ">
-            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded"></CarouselPrevious>
-            <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded"></CarouselNext>
+            <CarouselPrevious className="text-2xl font-bold h-full rounded"></CarouselPrevious>
+            <CarouselNext className="text-2xl font-bold h-full rounded"></CarouselNext>
             <CarouselContent>
               {shops.slice(0, 8).map((shop, index) => (
                 <CarouselItem className="basis-1/4 pl-8 pr-8" key={index}>
@@ -141,7 +72,7 @@ const TrendingShops = () => {
                     </div>
                     <div className="mt-2">
                       <h2 className="text-xl font-bold">{shop.shopName}</h2>
-                      <p className="text-sm truncate">{shop.description}</p>
+                      <p className="text-sm line-clamp-2">{shop.description}</p>
                     </div>
                   </Link>
                 </CarouselItem>
@@ -152,68 +83,7 @@ const TrendingShops = () => {
           </Carousel>
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="new" className="border-b-2 border-black">
-        <AccordionTrigger className="text-xl uppercase  font-bold hover:no-underline">
-          Newest
-        </AccordionTrigger>
-        <AccordionContent>
-          <Carousel className="mx-12 ">
-            <CarouselPrevious className="text-2xl font-bold"></CarouselPrevious>
-            <CarouselNext className="text-2xl font-bold"></CarouselNext>
-            <CarouselContent>
-              {dummydata.slice(8, 16).map((shop, index) => (
-                <CarouselItem className="basis-1/4" key={index}>
-                  <Image
-                    src={shop.image}
-                    alt={shop.name}
-                    width={0}
-                    height={0}
-                    style={{ width: "100%", height: "auto" }}
-                    className="rounded"
-                  />
-                  <div className="mt-2">
-                    <h2 className="text-xl font-bold">{shop.name}</h2>
-                    <p className="text-sm">{shop.description}</p>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded" />
-            <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded" />
-          </Carousel>
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="favorites" className="border-b-2 border-black">
-        <AccordionTrigger className="text-xl uppercase font-bold hover:no-underline">
-          Your favorites
-        </AccordionTrigger>
-        <AccordionContent>
-          <Carousel className="mx-12 ">
-            <CarouselPrevious className="text-2xl font-bold bg-slate-50 h-1/3 rounded"></CarouselPrevious>
-            <CarouselNext className="text-2xl font-bold bg-slate-50 h-1/3 rounded"></CarouselNext>
-            <CarouselContent>
-              {dummydata.slice(8, 10).map((shop, index) => (
-                <CarouselItem className="basis-1/4" key={index}>
-                  <Image
-                    src={shop.image}
-                    alt={shop.name}
-                    width={0}
-                    height={0}
-                    style={{ width: "100%", height: "auto" }}
-                    className="rounded"
-                  />
-                  <div className="mt-2">
-                    <h2 className="text-xl font-bold">{shop.name}</h2>
-                    <p className="text-sm">{shop.description}</p>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </AccordionContent>
-      </AccordionItem>
+      
     </Accordion>
   );
 };

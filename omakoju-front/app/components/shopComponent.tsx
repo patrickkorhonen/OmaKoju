@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { GETshop } from "@/app/api/shop";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 interface ShopComponentProps {
   id: string;
@@ -14,11 +15,12 @@ export default function ShopComponent({ id }: ShopComponentProps) {
   useEffect(() => {
     const fetchShop = async () => {
       const response = await GETshop(id);
-      if (response) {
+      if (response && response.ok) {
         const data = await response.json();
         setName(data.shopName);
         setDescription(data.description);
-        console.log("dataaaaa", data);
+      } else {
+        window.location.replace("/");
       }
     };
     fetchShop();
@@ -62,7 +64,19 @@ export default function ShopComponent({ id }: ShopComponentProps) {
           </section>
         </div>
       ) : (
-        <div>Loading...</div>
+        <div className="flex justify-center items-center h-screen">
+          <PropagateLoader
+            color={"#000000"}
+            cssOverride={{
+              display: "block",
+              margin: "0 auto",
+              borderColor: "black",
+            }}
+            size={10}
+            aria-label="Loading"
+            data-testid="loader"
+          />
+        </div>
       )}
     </main>
   );
