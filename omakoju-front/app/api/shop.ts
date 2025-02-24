@@ -94,3 +94,32 @@ export async function CreateShop(shopName: string, description: string) {
     });
   }
 }
+
+export async function UpdateShop(id: string, shopName: string, description: string, isActive: boolean) {
+  try {    
+    const response = await fetch("http://localhost:4000/shop/update", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id, shopName, description, isActive }),
+    });
+    const data = await response.json();
+    console.log("kauppadata päivityksestä", data);
+    if (response.ok) {
+      return new Response("Shop successfully updated.", {
+        status: 200,
+      });
+    } else {
+      return new Response("Couldn't update the shop.", {
+        status: 204,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return new Response("error", {
+      status: 400,
+    });
+  }
+}

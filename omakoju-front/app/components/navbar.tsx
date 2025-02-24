@@ -93,26 +93,7 @@ const Navbar = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            {userShops.length > 0 && (
-              <DropdownMenu>
-                <DropdownMenuTrigger className="outline-none text-white bg-black font-bold px-4 rounded-sm">
-                  Your shops
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-white">
-                  <DropdownMenuGroup>
-                    {userShops.map((shop, index) => (
-                      <Link key={index} href={`/shop/${shop.id}`}>
-                      <DropdownMenuItem
-                        className="hover:bg-slate-100 cursor-pointer"
-                      >
-                        {shop.shopName}
-                      </DropdownMenuItem>
-                      </Link>
-                    ))}
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+            {userShops.length > 0 && <Link className="rounded-sm bg-black text-white font-bold px-4 flex items-center" href={"/dashboard"}>Dashboard</Link>}
 
             <button
               onClick={() => handleLogout()}

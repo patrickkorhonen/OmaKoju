@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, BarChart } from "lucide-react";
-import { GETuserShops } from "@/app/api/shop";
+import { GETuserShops, UpdateShop } from "@/app/api/shop";
 import { Shop } from "@/interface";
 import Link from "next/link";
 import {
@@ -17,15 +17,33 @@ import Switch from "react-switch";
 
 export default function Dashboard() {
   const [userShops, setUserShops] = useState<Shop[]>([]);
+  const [newName, setNewName] = useState<string>();
+  const [newDescription, setNewDescription] = useState<string>();
+  const [newActive, setNewActive] = useState<boolean>()
+  const [errorMessage, setErrorMessage] = useState<string>();
 
-  const handleActive = (shop: Shop) => {
-    if (shop.isActive) {
-        shop.isActive = false;
+  const handleActive = () => {
+    if (newActive) {
+      setNewActive(false)
+    } else {
+      setNewActive(true)
+    }
+  };
+
+  const handleUpdate = async (shop: Shop) => {
+    if (shop.id && newName && newDescription) {
+      const response = await UpdateShop(shop.id, newName, newDescription, newActive!);
+      console.log(response)
+      if (response.ok) {
+        shop.shopName = newName;
+        shop.description = newDescription;
+        shop.isActive = newActive!;
+        setUserShops([...userShops]);
       } else {
-        shop.isActive = true;
+        setErrorMessage("Shop with this name already exists")
       }
-      setUserShops([...userShops]);
-  }
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +55,8 @@ export default function Dashboard() {
     };
     fetchData();
   }, []);
+
+  //TODO: fix the dialog closing only if name is changed.
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -58,18 +78,27 @@ export default function Dashboard() {
         {userShops.map((shop) => (
           <div key={shop.shopName} className="p-4 shadow-md">
             <h2 className="flex justify-between items-center">
-                <div className="flex gap-8">
-              <p>{shop.shopName}</p>
-              {shop.isActive ? (
-                <p className="text-green-500 font-bold">Active</p>
-              ) : (
-                <p className="text-red-500 font-bold">Hidden from users</p>
-              )}
+              <div className="flex gap-8">
+                <p>{shop.shopName}</p>
+                {shop.isActive ? (
+                  <p className="text-green-500 font-bold">Active</p>
+                ) : (
+                  <p className="text-red-500 font-bold">Hidden from users</p>
+                )}
               </div>
               <div className="flex gap-4">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <button><Pencil size={20} /></button>
+                    <button
+                      onClick={() => {
+                        setNewName(shop.shopName);
+                        setNewDescription(shop.description);
+                        setNewActive(shop.isActive)
+                        setErrorMessage("")
+                      }}
+                    >
+                      <Pencil size={20} />
+                    </button>
                   </DialogTrigger>
                   <DialogContent className="bg-white">
                     <DialogHeader>
@@ -83,31 +112,49 @@ export default function Dashboard() {
                         <label htmlFor="name" className="text-right">
                           Shop name
                         </label>
+                        <span className="flex flex-col col-span-3">
                         <input
                           id="name"
-                          defaultValue={shop.shopName}
-                          className="col-span-3 p-2 border rounded"
+                          className="p-2 border rounded"
+                          value={newName}
+                          onChange={(e) => {
+                            setNewName(e.target.value)
+                            setErrorMessage("")
+                          }}
                         />
+                        {errorMessage && (
+                          <p className="text-red-500">{errorMessage}</p>
+                        )}
+                        </span>
                       </div>
+                      
+                        
                       <div className="grid grid-cols-4 items-center gap-4">
                         <label htmlFor="description" className="text-right">
                           Description
                         </label>
                         <textarea
                           id="description"
-                          defaultValue={shop.description}
                           className="col-span-3 max-h-80 border rounded p-2"
+                          value={newDescription}
+                          onChange={(e) => setNewDescription(e.target.value)}
                         />
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">
                         <label htmlFor="active" className="text-right">
                           active
                         </label>
-                        <Switch id="active" onChange={() => handleActive(shop)} checked={shop.isActive}/>
+                        <Switch
+                          id="active"
+                          onChange={() => handleActive()}
+                          checked={newActive!}
+                        />
                       </div>
                     </div>
                     <DialogFooter>
-                      <button type="submit">Save changes</button>
+                      <button onClick={() => handleUpdate(shop)} className="bg-green-600 text-white p-2 rounded font-bold">
+                        Save changes
+                      </button>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
