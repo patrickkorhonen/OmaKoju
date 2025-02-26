@@ -13,18 +13,6 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  return res.send("Hi Everyone....");
-});
-
-app.get("/protected", authMiddleware, (req, res) => {
-  return res.send("This is a protected route");
-});
-
-app.get("/validate", authMiddleware, (req, res) => {
-  return res.json({ valid: true });
-});
-
 app.use("/shop", shopRoutes)
 
 app.use("/auth", authRoutes);
