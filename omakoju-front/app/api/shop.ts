@@ -69,7 +69,7 @@ export async function GETuserShops() {
   }
 }
 
-export async function CreateShop(shopName: string, description: string) {
+export async function CreateShop(shopName: string, description: string, croppedLogo: string) {
   console.log('sit täällä', shopName, description);
   try {    
     const response = await fetch("http://localhost:4000/shop/create", {
@@ -78,7 +78,7 @@ export async function CreateShop(shopName: string, description: string) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ shopName, description }),
+      body: JSON.stringify({ shopName, description, croppedLogo }),
     });
     const data = await response.json();
     console.log("kauppadata", data);
