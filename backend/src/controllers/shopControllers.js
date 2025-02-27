@@ -1,8 +1,8 @@
 import prisma from "../prismaClient.js";
-import { uploadProfilePicture } from "./uploadController.js";
+import { uploadLogo, uploadBanner } from "./uploadController.js";
 
 export const createShop = async (req, res) => {
-  const { shopName, description, croppedLogo } = req.body;
+  const { shopName, description, croppedLogo, croppedBanner } = req.body;
   const UID = req.userId;
   console.log("lopuksi täällä", shopName, description, UID);
   try {
@@ -18,14 +18,20 @@ export const createShop = async (req, res) => {
         .send({ message: "Shop with this name already exists" });
     }
     const result = await prisma.$transaction(async (tx) => {
-      const imageUpload = await uploadProfilePicture(croppedLogo, shopName);
+      const logoUpload = await uploadLogo(croppedLogo, shopName);
+      let bannerUpload = null;
+
+      if (croppedBanner) {
+        bannerUpload = await uploadBanner(croppedBanner, shopName);
+      }
 
       const shop = await tx.shop.create({
         data: {
           userId: UID,
           shopName,
           description,
-          logoPicture: imageUpload,
+          logoPicture: logoUpload,
+          bannerPicture: bannerUpload,
         },
       });
       return shop;
@@ -143,6 +149,7 @@ export const getShop = async (req, res) => {
         description: true,
         products: true,
         logoPicture: true,
+        bannerPicture: true,
       },
     });
 

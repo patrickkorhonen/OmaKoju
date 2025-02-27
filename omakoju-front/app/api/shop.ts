@@ -69,16 +69,21 @@ export async function GETuserShops() {
   }
 }
 
-export async function CreateShop(shopName: string, description: string, croppedLogo: string) {
+export async function CreateShop(shopName: string, description: string, croppedLogo: string, croppedBanner: string | null) {
   console.log('sit täällä', shopName, description);
-  try {    
+  try {
+    const requestBody: { shopName: string; description: string; croppedLogo: string; croppedBanner?: string | null } = { shopName, description, croppedLogo };
+    if (croppedBanner) {
+      requestBody.croppedBanner = croppedBanner;
+    }
+    
     const response = await fetch("http://localhost:4000/shop/create", {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ shopName, description, croppedLogo }),
+      body: JSON.stringify(requestBody),
     });
     const data = await response.json();
     console.log("kauppadata", data);

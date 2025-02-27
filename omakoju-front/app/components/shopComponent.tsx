@@ -14,6 +14,7 @@ export default function ShopComponent({ id }: ShopComponentProps) {
   const [description, setDescription] = useState<string>();
   const [owner, setOwner] = useState(false);
   const [logo, setLogo] = useState<null | string>(null);
+  const [banner, setBanner] = useState<null | string>(null);
 
   useEffect(() => {
     const fetchShop = async () => {
@@ -23,7 +24,7 @@ export default function ShopComponent({ id }: ShopComponentProps) {
         setName(data.shopName);
         setDescription(data.description);
         setLogo(data.logoPicture);
-        console.log(data.logoPicture)
+        setBanner(data.bannerPicture);
         const userFetch = await getUser();
         if (userFetch != undefined) {
           if (userFetch.id === data.userId) setOwner(true);
@@ -39,25 +40,36 @@ export default function ShopComponent({ id }: ShopComponentProps) {
     <main className="min-h-screen my-4 bg-white">
       {name && description ? (
         <div className="w-2/3 place-self-center">
-          <div className="flex w-full h-60 place-self-center rounded-xl mb-4">
-            <Image
-              src={"/photos/banner.jpg"}
-              alt={name}
-              width={0}
-              height={0}
-              style={{ width: "100%", height: "auto" }}
-              className="rounded-xl object-cover"
-            />
+          <div className="flex w-full h-full place-self-center rounded-xl mb-4">
+            {banner ? (
+              <Image
+                src={banner}
+                alt={name}
+                width={0}
+                height={0}
+                style={{ width: "100%", height: "auto" }}
+                className="rounded-xl object-cover"
+              />
+            ) : (
+              <Image
+                src={"/photos/banner.jpg"}
+                alt={name}
+                width={0}
+                height={0}
+                style={{ width: "100%", height: "auto" }}
+                className="rounded-xl object-cover"
+              />
+            )}
           </div>
-          <section className="grid grid-cols-7 gap-4 h-40 overflow-hidden">
-            <div className="relative w-40 h-40">
+          <section className="grid grid-cols-7 gap-4 h-40 ">
+            <div className="p-2">
               {logo ? (
                 <Image
                   src={logo}
                   alt={name}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-full"
+                  width={0}
+                  height={0}
+                  style={{ width: "100%", height: "auto" }}
                 />
               ) : (
                 <Image

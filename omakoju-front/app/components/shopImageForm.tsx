@@ -74,7 +74,7 @@ export default function ShopImageForm({
 
   const createShop = async () => {
     if (shopName && description) {
-      const response = await CreateShop(shopName, description, croppedLogo!);
+      const response = await CreateShop(shopName, description, croppedLogo!, croppedBanner);
       if (response && response.ok) {
         window.location.replace("/");
       } else {

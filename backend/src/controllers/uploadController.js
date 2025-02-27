@@ -7,7 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export const uploadProfilePicture = async (imageBase64, shopName) => {
+export const uploadLogo = async (imageBase64, shopName) => {
   try {
     const uploadResult = await cloudinary.uploader
       .upload(
@@ -31,3 +31,28 @@ export const uploadProfilePicture = async (imageBase64, shopName) => {
     res.status(500).json({ error: "Failed to upload image" });
   }
 };
+
+export const uploadBanner = async (imageBase64, shopName) => {
+    try {
+      const uploadResult = await cloudinary.uploader
+        .upload(
+          imageBase64,
+          {
+            public_id: shopName,
+            folder: "shop_banners",
+            transformation: [{ width: 1500, height: 300, crop: "fill", quality: "auto", fetch_format: "auto" }],
+          }
+        )
+        .catch((error) => {
+          console.log(error);
+        });
+  
+      console.log("eka b", uploadResult);
+      console.log("toka b", uploadResult.secure_url);
+      return uploadResult.secure_url
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to upload image" });
+    }
+  };
