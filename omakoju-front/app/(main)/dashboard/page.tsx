@@ -48,6 +48,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await GETuserShops();
+      console.log("jooooo", response)
       const data = await response.json();
       if (data) {
         setUserShops(data);

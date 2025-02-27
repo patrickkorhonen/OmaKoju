@@ -13,6 +13,7 @@ export default function ShopComponent({ id }: ShopComponentProps) {
   const [name, setName] = useState<string>();
   const [description, setDescription] = useState<string>();
   const [owner, setOwner] = useState(false);
+  const [logo, setLogo] = useState<null | string>(null);
 
   useEffect(() => {
     const fetchShop = async () => {
@@ -21,10 +22,11 @@ export default function ShopComponent({ id }: ShopComponentProps) {
         const data = await response.json();
         setName(data.shopName);
         setDescription(data.description);
+        setLogo(data.logoPicture);
+        console.log(data.logoPicture)
         const userFetch = await getUser();
         if (userFetch != undefined) {
-          if (userFetch.id === data.userId)
-            setOwner(true)
+          if (userFetch.id === data.userId) setOwner(true);
         }
       } else {
         window.location.replace("/");
@@ -49,13 +51,23 @@ export default function ShopComponent({ id }: ShopComponentProps) {
           </div>
           <section className="grid grid-cols-7 gap-4 h-40 overflow-hidden">
             <div className="relative w-40 h-40">
-              <Image
-                src={"/photos/computer-profile.avif"}
-                alt={name}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-full"
-              />
+              {logo ? (
+                <Image
+                  src={logo}
+                  alt={name}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full"
+                />
+              ) : (
+                <Image
+                  src={"/photos/computer-profile.avif"}
+                  alt={name}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full"
+                />
+              )}
             </div>
             <div className="flex flex-col justify-between h-40 col-span-2">
               <p className="font-bold text-4xl">{name}</p>

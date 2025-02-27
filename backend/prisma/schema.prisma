@@ -35,6 +35,8 @@ model Shop {
   isActive    Boolean @default(true)  
   products    Product[]
   orders      Order[]
+  logoPicture String?
+  bannerPicture String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
