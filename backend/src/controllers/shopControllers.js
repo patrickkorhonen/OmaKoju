@@ -110,6 +110,8 @@ export const getAllShops = async (req, res) => {
         id: true,
         shopName: true,
         description: true,
+        logoPicture: true,
+        bannerPicture: true,
       },
     });
 

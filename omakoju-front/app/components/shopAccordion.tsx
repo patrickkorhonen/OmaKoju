@@ -20,6 +20,8 @@ interface shop {
   id: string;
   shopName: string;
   description: string;
+  logoPicture: string | null;
+  bannerPicture: string | null;
 }
 
 const TrendingShops = () => {
@@ -33,7 +35,7 @@ const TrendingShops = () => {
         setShops(data);
       }
     };
-    fetchShops()
+    fetchShops();
   }, []);
 
   return (
@@ -55,22 +57,44 @@ const TrendingShops = () => {
             <CarouselNext className="text-2xl font-bold h-full rounded"></CarouselNext>
             <CarouselContent>
               {shops.slice(0, 8).map((shop, index) => (
-                <CarouselItem className="basis-1/4 pl-8 pr-8" key={index}>
-                  <Link
-                    href={`/shop/${shop.id}`}
-                    key={index}
-                  >
+                <CarouselItem className="basis-1/3 pl-4 pr-4" key={index}>
+                  <Link href={`/shop/${shop.id}`} key={index}>
                     <div className="relative">
-                      <Image
-                        src={"/photos/tools.jpg"}
-                        alt={shop.shopName}
-                        width={0}
-                        height={0}
-                        style={{ width: "100%", height: "auto" }}
-                        className="rounded"
-                      />
+                      {shop.bannerPicture ? (
+                        <Image
+                          src={shop.bannerPicture}
+                          alt={shop.shopName}
+                          width={0}
+                          height={0}
+                          style={{ width: "100%", height: "auto" }}
+                          className="rounded"
+                        />
+                      ) : (
+                        <Image
+                          src={"/photos/default_banner.png"}
+                          alt={shop.shopName}
+                          width={0}
+                          height={0}
+                          style={{ width: "100%", height: "auto" }}
+                          className="rounded"
+                        />
+                      )}
                     </div>
-                    <div className="mt-2">
+                    <div className="-translate-y-1/4">
+                      {shop.logoPicture && (
+                        <div className="flex justify-center">
+                          <Image
+                            src={shop.logoPicture}
+                            alt={shop.shopName}
+                            width={0}
+                            height={0}
+                            style={{ width: "30%", height: "auto" }}
+                            className=" rounded-full"
+                          />
+                        </div>
+                      )}
+                    </div>
+                    <div className="-translate-y-1/4">
                       <h2 className="text-xl font-bold">{shop.shopName}</h2>
                       <p className="text-sm line-clamp-2">{shop.description}</p>
                     </div>
@@ -83,7 +107,6 @@ const TrendingShops = () => {
           </Carousel>
         </AccordionContent>
       </AccordionItem>
-      
     </Accordion>
   );
 };
