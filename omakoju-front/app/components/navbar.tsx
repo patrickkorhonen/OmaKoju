@@ -60,7 +60,7 @@ const Navbar = () => {
         {user ? (
           <input
             placeholder="Search for a shop or product"
-            className="rounded-full w-full text-sm  bg-slate-50 outline-none px-4 focus:placeholder-transparent"
+            className="rounded-full w-full text-sm mx-4 bg-slate-50 outline-none px-4 focus:placeholder-transparent"
           ></input>
         ) : (
           <></>

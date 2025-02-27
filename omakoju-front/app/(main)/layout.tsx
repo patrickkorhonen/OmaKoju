@@ -4,7 +4,6 @@ import "../globals.css";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 
-
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -21,14 +20,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased flex flex-col`}>
+        <div className="hidden lg:block">
           <Navbar />
-          {children}
-          <Footer />
+        </div>
+        {children}
+        <Footer />
       </body>
     </html>
   );
