@@ -46,31 +46,31 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="flex justify-center bg-[#e4d5b7]">
-      <div className="w-2/3 grid grid-cols-3 py-4 h-16">
+    <div className="flex justify-center bg-[#e4d5b7] h-16 py-4">
+      <div className="w-2/3 flex justify-between">
         <Link className="text-2xl place-self-center w-full font-bold" href="/">
           <Image
             src={"/logo.png"}
             alt={"logo"}
             width={0}
             height={0}
-            style={{ width: "40%", height: "auto" }}
+            style={{ width: "150px", height: "auto" }}
           />
         </Link>
         {user ? (
           <input
             placeholder="Search for a shop or product"
-            className="rounded-full w-full bg-slate-50 outline-none px-4 focus:placeholder-transparent"
+            className="rounded-full w-full text-sm  bg-slate-50 outline-none px-4 focus:placeholder-transparent"
           ></input>
         ) : (
-          <div></div>
+          <></>
         )}
         {loading ? (
           <></>
         ) : user ? (
-          <div className="flex gap-6 w-full justify-end">
+          <div className="flex gap-4 w-full justify-end">
             <DropdownMenu>
-              <DropdownMenuTrigger className="outline-none border-2 border-bgGreen text-bgGreen font-bold px-4 rounded-sm">
+              <DropdownMenuTrigger className="outline-none border-2 text-sm  border-bgGreen text-bgGreen font-bold px-4 rounded-sm">
                 {user.name}
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-white">
@@ -93,26 +93,33 @@ const Navbar = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            {userShops.length > 0 && <Link className="rounded-sm bg-black text-white font-bold px-4 flex items-center" href={"/dashboard"}>Dashboard</Link>}
+            {userShops.length > 0 && (
+              <Link
+                className="rounded-sm bg-black text-white text-sm  font-bold px-4 flex items-center"
+                href={"/dashboard"}
+              >
+                Dashboard
+              </Link>
+            )}
 
             <button
               onClick={() => handleLogout()}
-              className="bg-[#013220] hover:bg-[#274d3f] text-white rounded-sm px-4 font-bold"
+              className="bg-[#013220] hover:bg-[#274d3f] text-white text-nowrap rounded-sm px-4 text-sm font-bold"
             >
               Log out
             </button>
           </div>
         ) : (
-          <div className="flex gap-6 w-full justify-end">
+          <div className="flex gap-4 w-full justify-end">
             <Link
               href="/login"
-              className="place-self-center underline underline-offset-2"
+              className="place-self-center underline text-sm  underline-offset-2"
             >
               Log in
             </Link>
             <Link
               href="/signup"
-              className="bg-[#013220] hover:bg-[#274d3f] text-white rounded-sm px-4 font-bold flex items-center"
+              className="bg-[#013220] hover:bg-[#274d3f] text-sm  text-white rounded-sm px-4 font-bold flex items-center"
             >
               <p>Sign up</p>
             </Link>
