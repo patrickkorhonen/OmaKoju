@@ -61,15 +61,14 @@ export default function ShopComponent({ id }: ShopComponentProps) {
               />
             )}
           </div>
-          <section className="grid grid-cols-7 gap-4 h-40 ">
-            <div className="p-2">
+          <section className="flex gap-8 h-40">
+            <div className="relative w-40 p-2 h-full">
               {logo ? (
                 <Image
                   src={logo}
                   alt={name}
-                  width={0}
-                  height={0}
-                  style={{ width: "100%", height: "auto" }}
+                  layout="fill"
+                  objectFit="cover"
                 />
               ) : (
                 <Image
@@ -81,7 +80,7 @@ export default function ShopComponent({ id }: ShopComponentProps) {
                 />
               )}
             </div>
-            <div className="flex flex-col justify-between h-40 col-span-2">
+            <div className="flex flex-col justify-between h-full">
               <p className="font-bold text-4xl">{name}</p>
               <span>
                 <p className="text-slate-500 text-sm">dummyemail@example.com</p>
@@ -89,7 +88,7 @@ export default function ShopComponent({ id }: ShopComponentProps) {
                 <p className="text-slate-500 text-sm">Lagos, Nigeria</p>
               </span>
             </div>
-            <div className="col-span-4 h-40 p-4 cursor-default bg-slate-100 rounded-md overflow-y-scroll">
+            <div className="h-full w-1/2 ml-auto p-4 cursor-default bg-slate-100 rounded-md overflow-y-scroll">
               {description}
             </div>
           </section>
