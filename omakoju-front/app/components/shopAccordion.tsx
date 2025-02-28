@@ -44,18 +44,18 @@ const TrendingShops = () => {
       defaultValue={["trending", "new", "favorites"]}
       type="multiple"
     >
-      <AccordionItem value="trending" className="  p-4 rounded-xl border-0">
-        <AccordionTrigger className="text-xl uppercase font-bold rounded hover:no-underline">
-          Trending
+      <AccordionItem value="trending" className="bg-white  p-4 rounded-xl border-0">
+        <AccordionTrigger className="text-2xl font-extrabold rounded hover:no-underline">
+        🔥 Trending Shops
         </AccordionTrigger>
         <AccordionContent>
-          <Carousel className="mx-12 ">
+          <Carousel className="mx-12">
             <CarouselPrevious className="text-2xl font-bold h-full rounded"></CarouselPrevious>
             <CarouselNext className="text-2xl font-bold h-full rounded"></CarouselNext>
             <CarouselContent>
               {shops.slice(0, 8).map((shop, index) => (
-                <CarouselItem className="basis-1/3 pl-5 pr-5 flex" key={index}>
-                  <div className="rounded-xl shadow-lg mb-4">
+                <CarouselItem className="basis-1/3 flex" key={index}>
+                  <div className="rounded-xl shadow-lg mb-4 m-4 transform hover:scale-105 transition ">
                     <Link href={`/shop/${shop.id}`} key={index}>
                       <div className="relative ">
                         {shop.bannerPicture ? (

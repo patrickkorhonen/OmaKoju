@@ -4,7 +4,7 @@ import { uploadLogo, uploadBanner } from "./uploadController.js";
 export const createShop = async (req, res) => {
   const { shopName, description, croppedLogo, croppedBanner } = req.body;
   const UID = req.userId;
-  console.log("lopuksi täällä", shopName, description, UID);
+
   try {
     const existingShop = await prisma.shop.findUnique({
       where: {
@@ -57,8 +57,8 @@ export const createShop = async (req, res) => {
       result,
     });
   } catch (err) {
-    console.log(err);
-    res.sendStatus(503);
+    console.error("Error in creating shop:", err);
+    res.status(503).json({ message: "Shop creation failed" });
   }
 };
 
@@ -96,7 +96,7 @@ export const updateShop = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.sendStatus(503);
+    res.status(503).json({ message: "Shop update failed" });
   }
 };
 
@@ -118,7 +118,7 @@ export const getAllShops = async (req, res) => {
     res.json(allShops);
   } catch (err) {
     console.log(err);
-    res.sendStatus(503);
+    res.status(503).json({ message: "Couldn't fetch shops" });
   }
 };
 
@@ -134,7 +134,7 @@ export const getUsersShops = async (req, res) => {
     res.json(userShops);
   } catch (err) {
     console.log(err);
-    res.sendStatus(503);
+    res.status(503).json({ message: "Couldn't fetch user's shops" });
   }
 };
 
@@ -158,6 +158,6 @@ export const getShop = async (req, res) => {
     res.json(shop);
   } catch (err) {
     console.log(err);
-    res.sendStatus(503);
+    res.status(503).json({ message: "Couldn't fetch shop" });
   }
 };

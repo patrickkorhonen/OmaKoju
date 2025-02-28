@@ -70,7 +70,6 @@ export async function GETuserShops() {
 }
 
 export async function CreateShop(shopName: string, description: string, croppedLogo: string, croppedBanner: string | null) {
-  console.log('sit täällä', shopName, description);
   try {
     const requestBody: { shopName: string; description: string; croppedLogo: string; croppedBanner?: string | null } = { shopName, description, croppedLogo };
     if (croppedBanner) {
@@ -86,10 +85,14 @@ export async function CreateShop(shopName: string, description: string, croppedL
       body: JSON.stringify(requestBody),
     });
     const data = await response.json();
-    console.log("kauppadata", data);
     if (response.ok) {
       return new Response("Shop successfully created.", {
         status: 200,
+      });
+    } else {
+      console.log("Error response from server:", data.message);
+      return new Response(data.message || "Error during shop creation.", {
+        status: response.status,  
       });
     }
   } catch (err) {
@@ -110,8 +113,6 @@ export async function UpdateShop(id: string, shopName: string, description: stri
       },
       body: JSON.stringify({ id, shopName, description, isActive }),
     });
-    const data = await response.json();
-    console.log("kauppadata päivityksestä", data);
     if (response.ok) {
       return new Response("Shop successfully updated.", {
         status: 200,

@@ -197,6 +197,7 @@ CarouselItem.displayName = "CarouselItem";
 const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 >(({ className, size = "icon", ...props }, ref) => {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
 
@@ -205,17 +206,17 @@ const CarouselPrevious = React.forwardRef<
       ref={ref}
       size={size}
       className={cn(
-        "absolute h-8 w-8 shadow-none",
+        "absolute h-8 w-8 shadow-none bg-gray-200 rounded-full",
         orientation === "horizontal"
           ? "-left-12 top-1/2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-        className
+        //className
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
     >
-      <ArrowLeft className="h-4 w-4" />
+      <ArrowLeft className="h-4 w-4 " />
       <span className="sr-only">Show Previous</span>
     </Button>
   );
@@ -225,6 +226,7 @@ CarouselPrevious.displayName = "CarouselPrevious";
 const CarouselNext = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 >(({ className, size = "icon", ...props }, ref) => {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
 
@@ -233,11 +235,11 @@ const CarouselNext = React.forwardRef<
       ref={ref}
       size={size}
       className={cn(
-        "absolute h-8 w-8 shadow-none",
+        "absolute h-8 w-8 shadow-none rounded-full bg-gray-200",
         orientation === "horizontal"
           ? "-right-12 top-1/2 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-        className
+        //className
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}

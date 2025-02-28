@@ -55,7 +55,6 @@ export default function ShopImageForm({
   const setCroppedImageLogo = async () => {
     try {
       const croppedImage = await getCroppedImgLogo(logo, pixLogo);
-      console.log("donee", { croppedImage });
       setCroppedLogo(croppedImage);
     } catch (e) {
       console.error(e);
@@ -65,7 +64,6 @@ export default function ShopImageForm({
   const setCroppedImageBanner = async () => {
     try {
       const croppedImage = await getCroppedImgBanner(banner, pixBanner);
-      console.log("donee", { croppedImage });
       setCroppedBanner(croppedImage);
     } catch (e) {
       console.error(e);
@@ -78,7 +76,8 @@ export default function ShopImageForm({
       if (response && response.ok) {
         window.location.replace("/");
       } else {
-        console.log("Error encountered while creating the shop.");
+      const errorMessage = await response.text();
+      alert(`Shop creation failed: ${errorMessage}`);
       }
     }
   };

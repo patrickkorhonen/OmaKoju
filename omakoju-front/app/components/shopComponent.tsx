@@ -52,7 +52,7 @@ export default function ShopComponent({ id }: ShopComponentProps) {
               />
             ) : (
               <Image
-                src={"/photos/banner.jpg"}
+                src={"/photos/default_banner.png"}
                 alt={name}
                 width={0}
                 height={0}
