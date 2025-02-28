@@ -13,7 +13,6 @@ export const uploadLogo = async (imageBase64, shopName) => {
       .upload(
         imageBase64,
         {
-          public_id: shopName,
           folder: "shop_logos",
           transformation: [{ width: 400, height: 400, crop: "scale", quality: "auto", fetch_format: "auto" }],
         }
@@ -38,7 +37,6 @@ export const uploadBanner = async (imageBase64, shopName) => {
         .upload(
           imageBase64,
           {
-            public_id: shopName,
             folder: "shop_banners",
             transformation: [{ width: 1500, height: 300, crop: "fill", quality: "auto", fetch_format: "auto" }],
           }
