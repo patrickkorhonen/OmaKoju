@@ -90,6 +90,7 @@ export default function ShopImageForm({
     }
   };
 
+
   return (
     <div>
       <label htmlFor="logo" className="text-sm font-medium text-gray-700">
@@ -97,7 +98,7 @@ export default function ShopImageForm({
       </label>
       <input
         type="file"
-        accept=".jpg, .jpeg, .png"
+        accept=".jpg, .jpeg, .png, .avif"
         name="logo"
         id="logo"
         className="p-4 mb-4 w-full border border-gray-300 focus:border-black outline-none rounded-md"
