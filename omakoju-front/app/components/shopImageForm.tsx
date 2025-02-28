@@ -6,6 +6,7 @@ import { Point, Area } from "react-easy-crop";
 import Slider from "@mui/material/Slider";
 import getCroppedImgLogo from "./cropImageLogo";
 import getCroppedImgBanner from "./cropImageBanner";
+import MoonLoader from "react-spinners/MoonLoader";
 
 interface ShopImageFormProps {
   handleBack: () => void;
@@ -28,6 +29,7 @@ export default function ShopImageForm({
   const [croppedBanner, setCroppedBanner] = useState<string | null>(null);
   const [pixLogo, setPixLogo] = useState<Area>();
   const [pixBanner, setPixBanner] = useState<Area>();
+  const [uploading, setUploading] = useState(false);
 
   const onCropChangeLogo = (crop: Point) => {
     setCropLogo(crop);
@@ -72,12 +74,18 @@ export default function ShopImageForm({
 
   const createShop = async () => {
     if (shopName && description) {
-      const response = await CreateShop(shopName, description, croppedLogo!, croppedBanner);
+      const response = await CreateShop(
+        shopName,
+        description,
+        croppedLogo!,
+        croppedBanner
+      );
       if (response && response.ok) {
         window.location.replace("/");
       } else {
-      const errorMessage = await response.text();
-      alert(`Shop creation failed: ${errorMessage}`);
+        const errorMessage = await response.text();
+        setUploading(false)
+        alert(`Shop creation failed: ${errorMessage}`);
       }
     }
   };
@@ -213,17 +221,33 @@ export default function ShopImageForm({
         >
           Back
         </button>
-        <button
-          disabled={!shopName || !description || croppedLogo === null}
-          onClick={() => createShop()}
-          className={
-            shopName && description && croppedLogo
-              ? "bg-bgGreen rounded font-bold text-white col-span-2 p-2"
-              : "bg-[#617f65] rounded cursor-default font-bold text-white col-span-2 p-2"
-          }
-        >
-          Create
-        </button>
+        {uploading ? (
+          <div className="bg-bgGreen items-center flex rounded cursor-default font-bold text-white col-span-2 p-2"><MoonLoader
+          color={"#ffffff"}
+          cssOverride={{
+            display: "block",
+            margin: "0 auto",
+          }}
+          size={15}
+          aria-label="Loading"
+          data-testid="loader"
+        /></div>
+        ) : (
+          <button
+            disabled={!shopName || !description || croppedLogo === null}
+            onClick={() => {
+              setUploading(true)
+              createShop()
+            } }
+            className={
+              shopName && description && croppedLogo
+                ? "bg-bgGreen rounded font-bold text-white col-span-2 p-2"
+                : "bg-[#617f65] rounded cursor-default font-bold text-white col-span-2 p-2"
+            }
+          >
+            Create
+          </button>
+        )}
       </div>
     </div>
   );
