@@ -27,6 +27,8 @@ export interface Shop {
   isActive: boolean;
   products: [];
   orders: [];
+  logoPicture: string;
+  bannerPicture: string;
   createdAt: Date;
   updatedAt: Date;
 }

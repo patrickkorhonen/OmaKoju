@@ -14,33 +14,39 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Switch from "react-switch";
+import Image from "next/image";
 
 export default function Dashboard() {
   const [userShops, setUserShops] = useState<Shop[]>([]);
   const [newName, setNewName] = useState<string>();
   const [newDescription, setNewDescription] = useState<string>();
-  const [newActive, setNewActive] = useState<boolean>()
+  const [newActive, setNewActive] = useState<boolean>();
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const handleActive = () => {
     if (newActive) {
-      setNewActive(false)
+      setNewActive(false);
     } else {
-      setNewActive(true)
+      setNewActive(true);
     }
   };
 
   const handleUpdate = async (shop: Shop) => {
     if (shop.id && newName && newDescription) {
-      const response = await UpdateShop(shop.id, newName, newDescription, newActive!);
-      console.log(response)
+      const response = await UpdateShop(
+        shop.id,
+        newName,
+        newDescription,
+        newActive!
+      );
+      console.log(response);
       if (response.ok) {
         shop.shopName = newName;
         shop.description = newDescription;
         shop.isActive = newActive!;
         setUserShops([...userShops]);
       } else {
-        setErrorMessage("Shop with this name already exists")
+        setErrorMessage("Shop with this name already exists");
       }
     }
   };
@@ -48,7 +54,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await GETuserShops();
-      console.log("jooooo", response)
+      console.log("jooooo", response);
       const data = await response.json();
       if (data) {
         setUserShops(data);
@@ -74,10 +80,32 @@ export default function Dashboard() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 min-[1700px]:grid-cols-3 gap-6">
         {/* User Shops */}
         {userShops.map((shop) => (
-          <div key={shop.shopName} className="p-4 shadow-md">
+          <div key={shop.shopName} className="p-4 shadow-md rounded-xl">
+            <div className="flex gap-6 items-center pb-4">
+              <div className="relative">
+                <Image
+                  src={shop.logoPicture || "/photos/computer-profile.avif"}
+                  alt={"name"}
+                  width={0}
+                  height={0}
+                  style={{ width: "90%", height: "auto" }}
+                  className="rounded-full"
+                />
+              </div>
+              <div className="relative">
+                <Image
+                  src={shop.bannerPicture || "/photos/default_banner.png"}
+                  alt={"name"}
+                  width={0}
+                  height={0}
+                  style={{ width: "100%", height: "auto" }}
+                  className="rounded-xl"
+                />
+              </div>
+            </div>
             <h2 className="flex justify-between items-center">
               <div className="flex gap-8">
                 <p>{shop.shopName}</p>
@@ -94,8 +122,8 @@ export default function Dashboard() {
                       onClick={() => {
                         setNewName(shop.shopName);
                         setNewDescription(shop.description);
-                        setNewActive(shop.isActive)
-                        setErrorMessage("")
+                        setNewActive(shop.isActive);
+                        setErrorMessage("");
                       }}
                     >
                       <Pencil size={20} />
@@ -114,22 +142,21 @@ export default function Dashboard() {
                           Shop name
                         </label>
                         <span className="flex flex-col col-span-3">
-                        <input
-                          id="name"
-                          className="p-2 border rounded"
-                          value={newName}
-                          onChange={(e) => {
-                            setNewName(e.target.value)
-                            setErrorMessage("")
-                          }}
-                        />
-                        {errorMessage && (
-                          <p className="text-red-500">{errorMessage}</p>
-                        )}
+                          <input
+                            id="name"
+                            className="p-2 border rounded"
+                            value={newName}
+                            onChange={(e) => {
+                              setNewName(e.target.value);
+                              setErrorMessage("");
+                            }}
+                          />
+                          {errorMessage && (
+                            <p className="text-red-500">{errorMessage}</p>
+                          )}
                         </span>
                       </div>
-                      
-                        
+
                       <div className="grid grid-cols-4 items-center gap-4">
                         <label htmlFor="description" className="text-right">
                           Description
@@ -153,7 +180,10 @@ export default function Dashboard() {
                       </div>
                     </div>
                     <DialogFooter>
-                      <button onClick={() => handleUpdate(shop)} className="bg-green-600 text-white p-2 rounded font-bold">
+                      <button
+                        onClick={() => handleUpdate(shop)}
+                        className="bg-green-600 text-white p-2 rounded font-bold"
+                      >
                         Save changes
                       </button>
                     </DialogFooter>
