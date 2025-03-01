@@ -83,7 +83,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 xl:grid-cols-2 min-[1700px]:grid-cols-3 gap-6">
         {/* User Shops */}
         {userShops.map((shop) => (
-          <div key={shop.shopName} className="p-4 shadow-md rounded-xl">
+          <div key={shop.shopName} className="p-4 shadow-xl rounded-xl">
             <div className="flex gap-6 items-center pb-4">
               <div className="relative">
                 <Image
@@ -107,14 +107,15 @@ export default function Dashboard() {
               </div>
             </div>
             <h2 className="flex justify-between items-center">
-              <div className="flex gap-8">
-                <p>{shop.shopName}</p>
+              <div className="flex gap-8 items-center">
+                <p className="text-xl font-semibold">{shop.shopName}</p>
                 {shop.isActive ? (
                   <p className="text-green-500 font-bold">Active</p>
                 ) : (
                   <p className="text-red-500 font-bold">Hidden from users</p>
                 )}
               </div>
+              <button className="bg-black rounded text-white font-bold text-sm px-4 py-2">Go to Shop</button>
               <div className="flex gap-4">
                 <Dialog>
                   <DialogTrigger asChild>
@@ -194,7 +195,7 @@ export default function Dashboard() {
                 </button>
               </div>
             </h2>
-            <div>
+            <div className="mt-4">
               <p className="text-gray-600">{shop.description}</p>
             </div>
           </div>
