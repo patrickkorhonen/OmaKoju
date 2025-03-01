@@ -44,7 +44,7 @@ const TrendingShops = () => {
       defaultValue={["trending", "new", "favorites"]}
       type="multiple"
     >
-      <AccordionItem value="trending" className="bg-white  p-4 rounded-xl border-0">
+      <AccordionItem value="trending" className="bg-white p-4 rounded-xl border-0">
         <AccordionTrigger className="text-2xl font-extrabold rounded hover:no-underline">
         🔥 Trending Shops
         </AccordionTrigger>

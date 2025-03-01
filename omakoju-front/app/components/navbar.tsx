@@ -46,7 +46,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="flex justify-center bg-[#e4d5b7] h-16 py-4">
+    <div className="flex justify-center bg-bgBeige h-16 py-4">
       <div className="w-2/3 flex justify-between">
         <Link className="text-2xl place-self-center w-full font-bold" href="/">
           <Image

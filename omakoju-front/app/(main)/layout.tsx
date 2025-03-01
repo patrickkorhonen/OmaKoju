@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased flex flex-col`}>
-        <div className="hidden lg:block">
+        <div className="hidden sticky top-0 lg:block">
           <Navbar />
         </div>
         {children}
