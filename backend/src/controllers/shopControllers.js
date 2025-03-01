@@ -63,7 +63,7 @@ export const createShop = async (req, res) => {
 };
 
 export const updateShop = async (req, res) => {
-  const { id, shopName, description, isActive } = req.body;
+  const { id, shopName, description, isActive, newLogo } = req.body;
   try {
     const existingShop = await prisma.shop.findUnique({
       where: {
@@ -79,20 +79,35 @@ export const updateShop = async (req, res) => {
         .status(409)
         .send({ message: "Shop with this name already exists" });
     }
+    const result = await prisma.$transaction(async (tx) => {
 
-    const shop = await prisma.shop.update({
-      where: {
-        id,
-      },
-      data: {
+      let logoUpload = null;
+
+      if (newLogo) {
+        logoUpload = await uploadLogo(newLogo, shopName);
+      }
+
+      const updateData = {
         shopName,
         description,
         isActive,
+      };
+
+      if (logoUpload) {
+        updateData.logoPicture = logoUpload;
+      }
+
+    const shop = await tx.shop.update({
+      where: {
+        id,
       },
+      data: updateData
+    });
+    return shop;
     });
 
     res.json({
-      shop,
+      result,
     });
   } catch (err) {
     console.log(err);

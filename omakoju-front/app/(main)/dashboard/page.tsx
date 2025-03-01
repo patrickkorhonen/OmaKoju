@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, BarChart } from "lucide-react";
 import { GETuserShops, UpdateShop } from "@/app/api/shop";
+import LogoDialog from "./components/logoDialog";
 import { Shop } from "@/interface";
 import Link from "next/link";
 import {
@@ -23,6 +24,7 @@ export default function Dashboard() {
   const [newDescription, setNewDescription] = useState<string>();
   const [newActive, setNewActive] = useState<boolean>();
   const [errorMessage, setErrorMessage] = useState<string>();
+  const [newLogo, setNewLogo] = useState<string>();
 
   const handleActive = () => {
     if (newActive) {
@@ -32,19 +34,25 @@ export default function Dashboard() {
     }
   };
 
+  const handleNewLogo = (logo: string) => {
+    setNewLogo(logo)
+  }
+
   const handleUpdate = async (shop: Shop) => {
-    if (shop.id && newName && newDescription) {
+    if (shop.id && newName && newDescription && newLogo) {
       const response = await UpdateShop(
         shop.id,
         newName,
         newDescription,
-        newActive!
+        newActive!,
+        newLogo === shop.logoPicture ? null : newLogo!
       );
       console.log(response);
       if (response.ok) {
         shop.shopName = newName;
         shop.description = newDescription;
         shop.isActive = newActive!;
+        shop.logoPicture = newLogo!
         setUserShops([...userShops]);
       } else {
         setErrorMessage("Shop with this name already exists");
@@ -90,10 +98,10 @@ export default function Dashboard() {
                 <Image
                   src={shop.logoPicture || "/photos/computer-profile.avif"}
                   alt={"name"}
-                  width={0}
-                  height={0}
-                  style={{ width: "80%", height: "auto" }}
-                  className="rounded-full"
+                  width={300}
+                  height={300}
+                  //style={{ width: "80%", height: "auto" }}
+                  className="rounded-full border"
                 />
               </div>
               <div className="relative">
@@ -103,11 +111,11 @@ export default function Dashboard() {
                   width={0}
                   height={0}
                   style={{ width: "100%", height: "auto" }}
-                  className="rounded-xl"
+                  className="rounded-xl border"
                 />
               </div>
             </div>
-            <h2 className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-between mt-4 items-center">
               <div className="flex gap-8 items-center">
                 <p className="text-xl font-semibold">{shop.shopName}</p>
                 {shop.isActive ? (
@@ -128,6 +136,7 @@ export default function Dashboard() {
                         setNewDescription(shop.description);
                         setNewActive(shop.isActive);
                         setErrorMessage("");
+                        setNewLogo(shop.logoPicture)
                       }}
                     >
                       <Pencil size={20} />
@@ -186,18 +195,7 @@ export default function Dashboard() {
                         <label htmlFor="logo" className="text-right">
                           logo
                         </label>
-                        <div className="relative">
-                          <Image
-                            src={
-                              shop.logoPicture ||
-                              "/photos/computer-profile.avif"
-                            }
-                            alt={"logo"}
-                            width={0}
-                            height={0}
-                            style={{ width: "80%", height: "auto" }}
-                          />
-                        </div>
+                        <LogoDialog logo={newLogo!} handleNewLogo={handleNewLogo}/>
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">
                         <label htmlFor="banner" className="text-right">
@@ -238,7 +236,7 @@ export default function Dashboard() {
                   <Trash2 size={20} className="text-red-500" />
                 </button>
               </div>
-            </h2>
+            </div>
             <div className="mt-4">
               <p className="text-gray-600">{shop.description}</p>
             </div>

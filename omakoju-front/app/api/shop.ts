@@ -103,15 +103,21 @@ export async function CreateShop(shopName: string, description: string, croppedL
   }
 }
 
-export async function UpdateShop(id: string, shopName: string, description: string, isActive: boolean) {
-  try {    
+export async function UpdateShop(id: string, shopName: string, description: string, isActive: boolean, newLogo: string | null) {
+  try {
+    const requestBody: { id: string; shopName: string; description: string; isActive: boolean; newLogo?: string | null } = { id, shopName, description, isActive };
+    if (newLogo) {
+      requestBody.newLogo = newLogo;
+    }
+    console.log("opfnweoinvfiowe", requestBody)
+    
     const response = await fetch("http://localhost:4000/shop/update", {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id, shopName, description, isActive }),
+      body: JSON.stringify(requestBody),
     });
     if (response.ok) {
       return new Response("Shop successfully updated.", {
