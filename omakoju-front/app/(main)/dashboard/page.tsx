@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import Switch from "react-switch";
 import Image from "next/image";
@@ -83,15 +84,15 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 xl:grid-cols-2 min-[1700px]:grid-cols-3 gap-6">
         {/* User Shops */}
         {userShops.map((shop) => (
-          <div key={shop.shopName} className="p-4 shadow-xl rounded-xl">
-            <div className="flex gap-6 items-center pb-4">
+          <div key={shop.shopName} className="p-4 shadow-xl border rounded-xl">
+            <div className="flex gap-6 items-centerpb-4">
               <div className="relative">
                 <Image
                   src={shop.logoPicture || "/photos/computer-profile.avif"}
                   alt={"name"}
                   width={0}
                   height={0}
-                  style={{ width: "90%", height: "auto" }}
+                  style={{ width: "80%", height: "auto" }}
                   className="rounded-full"
                 />
               </div>
@@ -115,7 +116,9 @@ export default function Dashboard() {
                   <p className="text-red-500 font-bold">Hidden from users</p>
                 )}
               </div>
-              <button className="bg-black rounded text-white font-bold text-sm px-4 py-2">Go to Shop</button>
+              <button className="bg-black rounded text-white font-bold text-sm px-4 py-2">
+                Go to Shop
+              </button>
               <div className="flex gap-4">
                 <Dialog>
                   <DialogTrigger asChild>
@@ -179,14 +182,55 @@ export default function Dashboard() {
                           checked={newActive!}
                         />
                       </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <label htmlFor="logo" className="text-right">
+                          logo
+                        </label>
+                        <div className="relative">
+                          <Image
+                            src={
+                              shop.logoPicture ||
+                              "/photos/computer-profile.avif"
+                            }
+                            alt={"logo"}
+                            width={0}
+                            height={0}
+                            style={{ width: "80%", height: "auto" }}
+                          />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <label htmlFor="banner" className="text-right">
+                          banner
+                        </label>
+                        <div className="relative col-span-3">
+                          <Image
+                            src={
+                              shop.bannerPicture || "/photos/default_banner.png"
+                            }
+                            alt={"name"}
+                            width={0}
+                            height={0}
+                            style={{ width: "auto", height: "100%" }}
+                            className="rounded-xl"
+                          />
+                        </div>
+                      </div>
                     </div>
                     <DialogFooter>
-                      <button
-                        onClick={() => handleUpdate(shop)}
-                        className="bg-green-600 text-white p-2 rounded font-bold"
-                      >
-                        Save changes
-                      </button>
+                      <div className="flex justify-between w-full">
+                        <DialogClose>
+                          <div className="bg-red-600 text-white p-2 rounded font-bold">
+                            Cancel
+                          </div>
+                        </DialogClose>
+                        <button
+                          onClick={() => handleUpdate(shop)}
+                          className="bg-green-600 text-white p-2 rounded font-bold"
+                        >
+                          Save changes
+                        </button>
+                      </div>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
