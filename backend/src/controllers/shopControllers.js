@@ -63,7 +63,7 @@ export const createShop = async (req, res) => {
 };
 
 export const updateShop = async (req, res) => {
-  const { id, shopName, description, isActive, newLogo } = req.body;
+  const { id, shopName, description, isActive, newLogo, newBanner } = req.body;
   try {
     const existingShop = await prisma.shop.findUnique({
       where: {
@@ -82,9 +82,14 @@ export const updateShop = async (req, res) => {
     const result = await prisma.$transaction(async (tx) => {
 
       let logoUpload = null;
+      let bannerUpload = null;
 
       if (newLogo) {
         logoUpload = await uploadLogo(newLogo, shopName);
+      }
+
+      if (newBanner) {
+        bannerUpload = await uploadBanner(newBanner, shopName);
       }
 
       const updateData = {
@@ -95,6 +100,9 @@ export const updateShop = async (req, res) => {
 
       if (logoUpload) {
         updateData.logoPicture = logoUpload;
+      }
+      if (bannerUpload) {
+        updateData.bannerPicture = bannerUpload;
       }
 
     const shop = await tx.shop.update({

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, BarChart } from "lucide-react";
 import { GETuserShops, UpdateShop } from "@/app/api/shop";
 import LogoDialog from "./components/logoDialog";
+import BannerDialog from "./components/bannerDialog";
 import { Shop } from "@/interface";
 import Link from "next/link";
 import {
@@ -25,6 +26,7 @@ export default function Dashboard() {
   const [newActive, setNewActive] = useState<boolean>();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [newLogo, setNewLogo] = useState<string>();
+  const [newBanner, setNewBanner] = useState<string>();
 
   const handleActive = () => {
     if (newActive) {
@@ -38,21 +40,31 @@ export default function Dashboard() {
     setNewLogo(logo)
   }
 
+  const handleNewBanner = (banner: string) => {
+    setNewBanner(banner)
+  }
+
   const handleUpdate = async (shop: Shop) => {
-    if (shop.id && newName && newDescription && newLogo) {
+    if (shop.id && newName && newDescription && newLogo && newBanner) {
+      let bannerUpdate = null
+      if (shop.bannerPicture != newBanner && "/photos/default_banner.png" != newBanner) {
+       bannerUpdate = newBanner 
+      }
       const response = await UpdateShop(
         shop.id,
         newName,
         newDescription,
         newActive!,
-        newLogo === shop.logoPicture ? null : newLogo!
+        newLogo === shop.logoPicture ? null : newLogo!,
+        bannerUpdate
       );
       console.log(response);
       if (response.ok) {
         shop.shopName = newName;
         shop.description = newDescription;
         shop.isActive = newActive!;
-        shop.logoPicture = newLogo!
+        shop.logoPicture = newLogo!;
+        shop.bannerPicture = newBanner!;
         setUserShops([...userShops]);
       } else {
         setErrorMessage("Shop with this name already exists");
@@ -63,7 +75,6 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await GETuserShops();
-      console.log("jooooo", response);
       const data = await response.json();
       if (data) {
         setUserShops(data);
@@ -124,9 +135,11 @@ export default function Dashboard() {
                   <p className="text-red-500 font-bold">Hidden from users</p>
                 )}
               </div>
+              <Link href={`/shop/${shop.id}`}>
               <button className="bg-black rounded text-white font-bold text-sm px-4 py-2">
                 Go to Shop
               </button>
+              </Link>
               <div className="flex gap-4">
                 <Dialog>
                   <DialogTrigger asChild>
@@ -137,6 +150,7 @@ export default function Dashboard() {
                         setNewActive(shop.isActive);
                         setErrorMessage("");
                         setNewLogo(shop.logoPicture)
+                        setNewBanner(shop.bannerPicture ? shop.bannerPicture : "/photos/default_banner.png")
                       }}
                     >
                       <Pencil size={20} />
@@ -201,18 +215,7 @@ export default function Dashboard() {
                         <label htmlFor="banner" className="text-right">
                           banner
                         </label>
-                        <div className="relative col-span-3">
-                          <Image
-                            src={
-                              shop.bannerPicture || "/photos/default_banner.png"
-                            }
-                            alt={"name"}
-                            width={0}
-                            height={0}
-                            style={{ width: "auto", height: "100%" }}
-                            className="rounded-xl"
-                          />
-                        </div>
+                        <BannerDialog banner={newBanner!} handleNewBanner={handleNewBanner}/>
                       </div>
                     </div>
                     <DialogFooter>

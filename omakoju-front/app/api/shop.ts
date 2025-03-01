@@ -103,13 +103,15 @@ export async function CreateShop(shopName: string, description: string, croppedL
   }
 }
 
-export async function UpdateShop(id: string, shopName: string, description: string, isActive: boolean, newLogo: string | null) {
+export async function UpdateShop(id: string, shopName: string, description: string, isActive: boolean, newLogo: string | null, newBanner: string | null) {
   try {
-    const requestBody: { id: string; shopName: string; description: string; isActive: boolean; newLogo?: string | null } = { id, shopName, description, isActive };
+    const requestBody: { id: string; shopName: string; description: string; isActive: boolean; newLogo?: string | null; newBanner?: string | null } = { id, shopName, description, isActive };
     if (newLogo) {
       requestBody.newLogo = newLogo;
     }
-    console.log("opfnweoinvfiowe", requestBody)
+    if (newBanner) {
+      requestBody.newBanner = newBanner;
+    }
     
     const response = await fetch("http://localhost:4000/shop/update", {
       method: "POST",
