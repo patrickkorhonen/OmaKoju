@@ -49,12 +49,12 @@ const TrendingShops = () => {
         🔥 Trending Shops
         </AccordionTrigger>
         <AccordionContent>
-          <Carousel className="mx-12">
+          <Carousel className="mx-12 ">
             <CarouselPrevious className="text-2xl font-bold h-full rounded"></CarouselPrevious>
             <CarouselNext className="text-2xl font-bold h-full rounded"></CarouselNext>
             <CarouselContent>
               {shops.slice(0, 8).map((shop, index) => (
-                <CarouselItem className="basis-1/3 flex" key={index}>
+                <CarouselItem className="lg:basis-1/2 xl:basis-1/3 flex" key={index}>
                   <div className="rounded-xl shadow-lg mb-4 m-4 transform hover:scale-105 transition ">
                     <Link href={`/shop/${shop.id}`} key={index}>
                       <div className="relative ">
@@ -94,7 +94,7 @@ const TrendingShops = () => {
                       </div>
                       <div className="mx-4 pb-4">
                         <h2 className="text-xl font-bold">{shop.shopName}</h2>
-                        <p className="text-sm text-gray-600 line-clamp-3">
+                        <p className="text-sm text-gray-600 h-16 line-clamp-3">
                           {shop.description}
                         </p>
                       </div>
