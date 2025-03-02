@@ -119,9 +119,9 @@ export default function Dashboard() {
                 <Image
                   src={shop.bannerPicture || "/photos/default_banner.png"}
                   alt={"name"}
-                  width={0}
-                  height={0}
-                  style={{ width: "100%", height: "auto" }}
+                  width={1500}
+                  height={300}
+                  //style={{ width: "100%", height: "auto" }}
                   className="rounded-xl border"
                 />
               </div>
