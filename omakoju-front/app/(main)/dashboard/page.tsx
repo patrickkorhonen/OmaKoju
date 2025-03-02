@@ -1,11 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, BarChart } from "lucide-react";
+import { Plus, Pencil, BarChart } from "lucide-react";
 import { GETuserShops, UpdateShop } from "@/app/api/shop";
 import LogoDialog from "./components/logoDialog";
 import BannerDialog from "./components/bannerDialog";
 import { Shop } from "@/interface";
 import Link from "next/link";
+import DeleteShopDialog from "./components/deleteShopDialog";
 import {
   Dialog,
   DialogContent,
@@ -37,18 +38,21 @@ export default function Dashboard() {
   };
 
   const handleNewLogo = (logo: string) => {
-    setNewLogo(logo)
-  }
+    setNewLogo(logo);
+  };
 
   const handleNewBanner = (banner: string) => {
-    setNewBanner(banner)
-  }
+    setNewBanner(banner);
+  };
 
   const handleUpdate = async (shop: Shop) => {
     if (shop.id && newName && newDescription && newLogo && newBanner) {
-      let bannerUpdate = null
-      if (shop.bannerPicture != newBanner && "/photos/default_banner.png" != newBanner) {
-       bannerUpdate = newBanner 
+      let bannerUpdate = null;
+      if (
+        shop.bannerPicture != newBanner &&
+        "/photos/default_banner.png" != newBanner
+      ) {
+        bannerUpdate = newBanner;
       }
       const response = await UpdateShop(
         shop.id,
@@ -104,7 +108,7 @@ export default function Dashboard() {
         {/* User Shops */}
         {userShops.map((shop) => (
           <div key={shop.shopName} className="p-4 shadow-xl border rounded-xl">
-            <div className="flex gap-6 items-centerpb-4">
+            <div className="flex gap-2 sm:gap-6 items-centerpb-4">
               <div className="relative">
                 <Image
                   src={shop.logoPicture || "/photos/computer-profile.avif"}
@@ -136,9 +140,9 @@ export default function Dashboard() {
                 )}
               </div>
               <Link href={`/shop/${shop.id}`}>
-              <button className="bg-black rounded text-white font-bold text-sm px-4 py-2">
-                Go to Shop
-              </button>
+                <button className="bg-black rounded text-white font-bold text-sm px-4 py-2">
+                  Go to Shop
+                </button>
               </Link>
               <div className="flex gap-4">
                 <Dialog>
@@ -149,8 +153,12 @@ export default function Dashboard() {
                         setNewDescription(shop.description);
                         setNewActive(shop.isActive);
                         setErrorMessage("");
-                        setNewLogo(shop.logoPicture)
-                        setNewBanner(shop.bannerPicture ? shop.bannerPicture : "/photos/default_banner.png")
+                        setNewLogo(shop.logoPicture);
+                        setNewBanner(
+                          shop.bannerPicture
+                            ? shop.bannerPicture
+                            : "/photos/default_banner.png"
+                        );
                       }}
                     >
                       <Pencil size={20} />
@@ -209,13 +217,19 @@ export default function Dashboard() {
                         <label htmlFor="logo" className="text-right">
                           logo
                         </label>
-                        <LogoDialog logo={newLogo!} handleNewLogo={handleNewLogo}/>
+                        <LogoDialog
+                          logo={newLogo!}
+                          handleNewLogo={handleNewLogo}
+                        />
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">
                         <label htmlFor="banner" className="text-right">
                           banner
                         </label>
-                        <BannerDialog banner={newBanner!} handleNewBanner={handleNewBanner}/>
+                        <BannerDialog
+                          banner={newBanner!}
+                          handleNewBanner={handleNewBanner}
+                        />
                       </div>
                     </div>
                     <DialogFooter>
@@ -235,9 +249,7 @@ export default function Dashboard() {
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
-                <button>
-                  <Trash2 size={20} className="text-red-500" />
-                </button>
+                <DeleteShopDialog id={shop.id} name={shop.shopName}/>
               </div>
             </div>
             <div className="mt-4">

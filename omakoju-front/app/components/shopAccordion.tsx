@@ -94,7 +94,7 @@ const TrendingShops = () => {
                       </div>
                       <div className="mx-4 pb-4">
                         <h2 className="text-xl font-bold">{shop.shopName}</h2>
-                        <p className="text-sm text-gray-700 line-clamp-3">
+                        <p className="text-sm text-gray-600 line-clamp-3">
                           {shop.description}
                         </p>
                       </div>
