@@ -1,6 +1,5 @@
-
 export async function GETshops() {
-  try {    
+  try {
     const response = await fetch("http://localhost:4000/shop/all", {
       method: "GET",
       credentials: "include",
@@ -20,7 +19,7 @@ export async function GETshops() {
 }
 
 export async function GETshop(id: string) {
-  try {    
+  try {
     const response = await fetch(`http://localhost:4000/shop/${id}`, {
       method: "GET",
       credentials: "include",
@@ -45,7 +44,7 @@ export async function GETshop(id: string) {
 }
 
 export async function GETuserShops() {
-  try {    
+  try {
     const response = await fetch(`http://localhost:4000/shop/user`, {
       method: "GET",
       credentials: "include",
@@ -69,13 +68,23 @@ export async function GETuserShops() {
   }
 }
 
-export async function CreateShop(shopName: string, description: string, croppedLogo: string, croppedBanner: string | null) {
+export async function CreateShop(
+  shopName: string,
+  description: string,
+  croppedLogo: string,
+  croppedBanner: string | null
+) {
   try {
-    const requestBody: { shopName: string; description: string; croppedLogo: string; croppedBanner?: string | null } = { shopName, description, croppedLogo };
+    const requestBody: {
+      shopName: string;
+      description: string;
+      croppedLogo: string;
+      croppedBanner?: string | null;
+    } = { shopName, description, croppedLogo };
     if (croppedBanner) {
       requestBody.croppedBanner = croppedBanner;
     }
-    
+
     const response = await fetch("http://localhost:4000/shop/create", {
       method: "POST",
       credentials: "include",
@@ -92,7 +101,7 @@ export async function CreateShop(shopName: string, description: string, croppedL
     } else {
       console.log("Error response from server:", data.message);
       return new Response(data.message || "Error during shop creation.", {
-        status: response.status,  
+        status: response.status,
       });
     }
   } catch (err) {
@@ -103,16 +112,30 @@ export async function CreateShop(shopName: string, description: string, croppedL
   }
 }
 
-export async function UpdateShop(id: string, shopName: string, description: string, isActive: boolean, newLogo: string | null, newBanner: string | null) {
+export async function UpdateShop(
+  id: string,
+  shopName: string,
+  description: string,
+  isActive: boolean,
+  newLogo: string | null,
+  newBanner: string | null
+) {
   try {
-    const requestBody: { id: string; shopName: string; description: string; isActive: boolean; newLogo?: string | null; newBanner?: string | null } = { id, shopName, description, isActive };
+    const requestBody: {
+      id: string;
+      shopName: string;
+      description: string;
+      isActive: boolean;
+      newLogo?: string | null;
+      newBanner?: string | null;
+    } = { id, shopName, description, isActive };
     if (newLogo) {
       requestBody.newLogo = newLogo;
     }
     if (newBanner) {
       requestBody.newBanner = newBanner;
     }
-    
+
     const response = await fetch("http://localhost:4000/shop/update", {
       method: "POST",
       credentials: "include",
@@ -128,6 +151,33 @@ export async function UpdateShop(id: string, shopName: string, description: stri
     } else {
       return new Response("Couldn't update the shop.", {
         status: 204,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return new Response("error", {
+      status: 400,
+    });
+  }
+}
+
+export async function DeleteShop(id: string) {
+  try {
+    const response = await fetch(`http://localhost:4000/shop/delete`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+    if (response.ok) {
+      return new Response("deleted", {
+        status: 200,
+      });
+    } else {
+      return new Response("Delete failed", {
+        status: 404,
       });
     }
   } catch (err) {

@@ -10,15 +10,27 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Trash2 } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { DeleteShop } from "@/app/api/shop";
+import { Shop } from "@/interface";
 
-interface shop {
+interface deleteShopInterface {
   id: string;
   name: string;
+  userShops: Shop[];
+  setUserShops: Dispatch<SetStateAction<Shop[]>>;
 }
 
-export default function DeleteShopDialog({ id, name }: shop) {
+export default function DeleteShopDialog({ id, name, userShops, setUserShops }: deleteShopInterface) {
   const [deleteText, setDeleteText] = useState<string>("")
+
+  const handleDelete = async () => {
+    const response = await DeleteShop(id)
+    if (response.ok) {
+      const filtered = userShops.filter((shop) => shop.id != id)
+      setUserShops([...filtered])
+    }
+  }
 
   return (
     <Dialog>
@@ -50,7 +62,7 @@ export default function DeleteShopDialog({ id, name }: shop) {
               Cancel
             </div>
           </DialogClose>
-          <DialogClose disabled={deleteText != `delete ${name}`} onClick={() => console.log("kaupan poisto", deleteText)} className={deleteText != `delete ${name}` ? "bg-red-400 text-white p-2 rounded font-bold" : "bg-red-600 text-white p-2 rounded font-bold"}>
+          <DialogClose disabled={deleteText != `delete ${name}`} onClick={() => handleDelete()} className={deleteText != `delete ${name}` ? "bg-red-400 text-white p-2 rounded font-bold" : "bg-red-600 text-white p-2 rounded font-bold"}>
             Delete shop
           </DialogClose>
         </div>

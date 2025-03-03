@@ -25,7 +25,7 @@ export default function Dashboard() {
   //TODO: fix the dialog closing only if name is changed.
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen  p-6">
       <h1 className="text-3xl font-bold mb-6">My Shops</h1>
 
       {/* Quick Actions */}
@@ -81,7 +81,7 @@ export default function Dashboard() {
               </Link>
               <div className="flex gap-4">
                 <ModifyShopDialog shop={shop} userShops={userShops} setUserShops={setUserShops}/>
-                <DeleteShopDialog id={shop.id} name={shop.shopName}/>
+                <DeleteShopDialog id={shop.id} name={shop.shopName} userShops={userShops}  setUserShops={setUserShops}/>
               </div>
             </div>
             <div className="mt-4">

@@ -1,7 +1,7 @@
 import express from "express";
 import prisma from "../prismaClient.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
-import { createShop, updateShop, getAllShops, getUsersShops, getShop } from "../controllers/shopControllers.js";
+import { createShop, updateShop, getAllShops, getUsersShops, getShop, deleteShop } from "../controllers/shopControllers.js";
 
 const router = express.Router();
 
@@ -14,5 +14,7 @@ router.get("/all", getAllShops)
 router.get("/user", authMiddleware, getUsersShops)
 
 router.get("/:id", getShop)
+
+router.delete("/delete", authMiddleware, deleteShop)
 
 export default router;

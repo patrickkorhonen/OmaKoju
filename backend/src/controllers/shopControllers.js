@@ -184,3 +184,20 @@ export const getShop = async (req, res) => {
     res.status(503).json({ message: "Couldn't fetch shop" });
   }
 };
+
+export const deleteShop = async (req, res) => {
+  const { id } = req.body;
+  const UID = req.userId;
+  try {
+    const shop = await prisma.shop.delete({
+      where: {
+        id,
+        userId: UID,
+      },
+    })
+    res.status(204).json({ message: "Shop deleted." })
+  } catch (err) {
+    console.log(err);
+    res.status(503).json({ message: "Error while deleting the shop." });
+  }
+}
