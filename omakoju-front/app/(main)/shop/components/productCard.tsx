@@ -17,7 +17,7 @@ interface product {
 export default function ProductCard({ product }: Product) {
   return (
     <div className="shadow-lg shadow-gray-300 rounded-xl">
-      <div className="relative w-full h-64">
+      <div className="relative w-full h-40 sm:h-64">
         <Image
           src={product.imageUrl[0]}
           alt={"tuote"}
