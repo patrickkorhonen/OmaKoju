@@ -4,37 +4,51 @@ import { useState, useEffect } from "react";
 import { GETshop } from "@/app/api/shop";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { getUser } from "@/lib";
+import ProductCard from "./productCard";
+
 
 interface ShopComponentProps {
   id: string;
 }
 
+const dummy = {
+  tuote: {
+      id: "1",
+      shopId: "fc4a64b1-3b99-4e45-b892-49578a3db00f",
+      name: "Kamera",
+      price: 109.99,
+      stock: 52,
+      imageUrl: ["photos/kamera.jpg", "photos/hero-kamerat.png.webp"],
+  },
+}
+
 export default function ShopComponent({ id }: ShopComponentProps) {
-  const [name, setName] = useState<string>();
-  const [description, setDescription] = useState<string>();
+  const [name, setName] = useState<string>("kauppa");
+  const [description, setDescription] = useState<string>("kaupan kuvaus");
   const [owner, setOwner] = useState(false);
   const [logo, setLogo] = useState<null | string>(null);
   const [banner, setBanner] = useState<null | string>(null);
 
-  useEffect(() => {
-    const fetchShop = async () => {
-      const response = await GETshop(id);
-      if (response && response.ok) {
-        const data = await response.json();
-        setName(data.shopName);
-        setDescription(data.description);
-        setLogo(data.logoPicture);
-        setBanner(data.bannerPicture);
-        const userFetch = await getUser();
-        if (userFetch != undefined) {
-          if (userFetch.id === data.userId) setOwner(true);
-        }
-      } else {
-        window.location.replace("/");
-      }
-    };
-    fetchShop();
-  });
+  // useEffect(() => {
+  //   const fetchShop = async () => {
+  //     console.log("kauppa haetaan")
+  //     const response = await GETshop(id);
+  //     if (response && response.ok) {
+  //       const data = await response.json();
+  //       setName(data.shopName);
+  //       setDescription(data.description);
+  //       setLogo(data.logoPicture);
+  //       setBanner(data.bannerPicture);
+  //       const userFetch = await getUser();
+  //       if (userFetch != undefined) {
+  //         if (userFetch.id === data.userId) setOwner(true);
+  //       }
+  //     } else {
+  //       window.location.replace("/");
+  //     }
+  //   };
+  //   fetchShop();
+  // });
 
   return (
     <main className="min-h-screen my-4 bg-white">
@@ -93,7 +107,12 @@ export default function ShopComponent({ id }: ShopComponentProps) {
             </div>
           </section>
           <hr className="my-4"></hr>
-          {owner && <div>omistaja</div>}
+          <div className="grid gap-4 grid-cols-4">
+          <ProductCard product={dummy.tuote}/>
+          <ProductCard product={dummy.tuote}/>
+          <ProductCard product={dummy.tuote}/>
+          <ProductCard product={dummy.tuote}/>
+          </div>
         </div>
       ) : (
         <div className="flex justify-center items-center h-screen">

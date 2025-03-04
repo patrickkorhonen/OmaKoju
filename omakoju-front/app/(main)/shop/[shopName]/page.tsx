@@ -1,4 +1,4 @@
-import ShopComponent from "@/app/components/shopComponent";
+import ShopComponent from "@/app/(main)/shop/components/shopComponent";
 
 export default async function Shop({
   params,
