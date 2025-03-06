@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { setUser } from "../../../lib";
 import { useRouter } from "next/navigation";
+import { SignUp } from "@/app/api/auth";
 
 export default function Signup() {
   const router = useRouter();
@@ -11,6 +12,7 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [emailAlreadyInUse, setEmailAlreadyInUse] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -43,30 +45,29 @@ export default function Signup() {
       setErrorMessage("Password must be at least 6 characters long.");
       return;
     }
-
+    
+    setLoading(true);
     try {
-      const response = await fetch("http://localhost:4000/auth/register", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password, name }),
-      });
-      const data = await response.json();
-      console.log("data", data);
-      if (response.ok) {
-        await setUser(data.userInfo);
-        router.push("/");
-      } else if (response.status === 409) {
-        console.log(response);
-        console.log(response.status);
-        setEmailAlreadyInUse(true);
+      const response = await SignUp(email, password, name);
+      if (response) {
+        const data = await response.json();
+        console.log("data", data);
+        if (response.ok) {
+          await setUser(data.userInfo);
+          router.push("/");
+        } else if (response.status === 409) {
+          console.log(response);
+          console.log(response.status);
+          setEmailAlreadyInUse(true);
+        }
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <main className="flex flex-col h-full bg-[#013220]">
       <Link
@@ -122,7 +123,7 @@ export default function Signup() {
               type="password"
               placeholder="Password"
               onChange={(e) => {
-                setPassword(e.target.value)
+                setPassword(e.target.value);
                 setErrorMessage("");
               }}
             />
@@ -139,8 +140,9 @@ export default function Signup() {
               className="w-full bg-[#B8860B] text-white rounded-full p-3 mt-4 font-bold text-sm"
               type="submit"
               onClick={() => handleSignup()}
+              disabled={loading}
             >
-              SIGN UP
+              {loading ? "Signing up..." : "SIGN UP"}
             </button>
           </div>
         </div>

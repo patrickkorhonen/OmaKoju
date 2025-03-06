@@ -3,34 +3,34 @@ import Link from "next/link";
 import { useState } from "react";
 import { setUser } from "../../../lib";
 import { useRouter } from "next/navigation";
+import { LogIn } from "@/app/api/auth";
 
 export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+    setLoading(true);
     try {
-      const response = await fetch("http://localhost:4000/auth/login", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        await setUser(data.userInfo);
-        router.push("/");
-      } else if (response.status === 404 || response.status === 401) {
-        setErrorMessage("Invalid email or password");
-      } else {
-        console.log("Login failed");
+      const response = await LogIn(email, password);
+      if (response) {
+        const data = await response.json();
+        if (response.ok) {
+          await setUser(data.userInfo);
+          router.push("/");
+        } else if (response.status === 404 || response.status === 401) {
+          setErrorMessage("Invalid email or password");
+        } else {
+          console.log("Login failed");
+        }
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,7 +72,7 @@ export default function Login() {
               id="password"
               placeholder="Password"
               type="password"
-              onChange={(e) => { 
+              onChange={(e) => {
                 setPassword(e.target.value);
                 setErrorMessage("");
               }}
@@ -89,9 +89,10 @@ export default function Login() {
             <button
               className="w-full bg-[#B8860B] text-white rounded-full p-3 mt-4 font-bold text-sm"
               type="submit"
-              onClick={() => handleLogin()}
+              onClick={handleLogin}
+              disabled={loading}
             >
-              LOG IN
+              {loading ? "Logging in..." : "LOG IN"}
             </button>
           </div>
         </div>
