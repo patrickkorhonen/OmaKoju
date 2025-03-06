@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getUser, logoutSession } from "@/lib";
-import { User, Shop } from "@/interface";
+import { logoutSession } from "@/lib";
+import { Shop } from "@/interface";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -14,9 +14,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import { GETuserShops } from "../api/shop";
+import { useUser } from "../context/context";
 
 const Navbar = () => {
-  const [user, setUser] = useState<User>();
+  const { user } = useUser();
   const [loading, setLoading] = useState<boolean>(true);
   const [userShops, setUserShops] = useState<Shop[]>([]);
 
@@ -31,9 +32,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const userFetch = await getUser();
-      if (userFetch != undefined) {
-        setUser(userFetch);
+      if (user != undefined) {
         const response = await GETuserShops();
         const data = await response.json();
         if (data) {
@@ -43,7 +42,7 @@ const Navbar = () => {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [user]);
 
   return (
     <div className="flex justify-center bg-bgBeige h-16 py-4">

@@ -1,6 +1,7 @@
 "use client"
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { User } from "@/interface";
+import { getUser } from "@/lib";
 
 interface UserContextType {
   user: User | undefined;
@@ -11,6 +12,14 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userData = await getUser();
+      setUser(userData);
+    };
+    fetchUser();
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
