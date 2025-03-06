@@ -19,7 +19,6 @@ export async function setUser(data: any) {
 
 export async function getUser() {
   const session = (await cookies()).get("user")?.value;
-  console.log('session12431245325', session);
   const parsedSession = session ? JSON.parse(session) : null;
   return parsedSession;
 }

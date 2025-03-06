@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { GETshop } from "@/app/api/shop";
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { getUser } from "@/lib";
+//import { getUser } from "@/lib";
 import ProductCard from "./productCard";
 
 interface ShopComponentProps {
@@ -40,7 +40,7 @@ const dummy = {
 export default function ShopComponent({ id }: ShopComponentProps) {
   const [name, setName] = useState<string>();
   const [description, setDescription] = useState<string>();
-  const [owner, setOwner] = useState(false);
+  //const [owner, setOwner] = useState(false);
   const [logo, setLogo] = useState<null | string>(null);
   const [banner, setBanner] = useState<null | string>(null);
 
@@ -54,10 +54,10 @@ export default function ShopComponent({ id }: ShopComponentProps) {
         setDescription(data.description);
         setLogo(data.logoPicture);
         setBanner(data.bannerPicture);
-        const userFetch = await getUser();
-        if (userFetch != undefined) {
-          if (userFetch.id === data.userId) setOwner(true);
-        }
+        //const userFetch = await getUser();
+        // if (userFetch != undefined) {
+          // if (userFetch.id === data.userId) setOwner(true);
+        // }
       } else {
         window.location.replace("/");
       }
