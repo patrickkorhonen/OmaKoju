@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import { UserProvider } from "../context/context";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,13 +23,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased flex flex-col`}>
-        <div className="hidden sticky top-0 z-10 lg:block">
-          <Navbar />
-        </div>
-        {children}
-        <Footer />
-      </body>
+      <UserProvider>
+        <body className={`${inter.variable} antialiased flex flex-col`}>
+          <div className="hidden sticky top-0 z-10 lg:block">
+            <Navbar />
+          </div>
+          {children}
+          <Footer />
+        </body>
+      </UserProvider>
     </html>
   );
 }
