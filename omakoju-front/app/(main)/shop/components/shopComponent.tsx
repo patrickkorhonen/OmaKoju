@@ -5,6 +5,7 @@ import { GETshop } from "@/app/api/shop";
 import PropagateLoader from "react-spinners/PropagateLoader";
 //import { getUser } from "@/lib";
 import ProductCard from "./productCard";
+import Link from "next/link";
 
 interface ShopComponentProps {
   id: string;
@@ -66,9 +67,9 @@ export default function ShopComponent({ id }: ShopComponentProps) {
   });
 
   return (
-    <main className="min-h-screen lg:my-4 p-4 xl:p-0 bg-white">
+    <main className="min-h-screen lg:my-8 p-4 xl:p-0 bg-white">
       {name && description ? (
-        <div className="w-full lg:m-4 xl:w-2/3 place-self-center">
+        <div className="w-full xl:w-2/3 place-self-center">
           <div className="flex w-full h-full place-self-center rounded-xl mb-8">
             {banner ? (
               <Image
@@ -126,10 +127,12 @@ export default function ShopComponent({ id }: ShopComponentProps) {
             </div>
           </div>
           <hr className="my-8"></hr>
-          <div className="grid gap-4 sm:gap-8 grid-cols-2 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:gap-8 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
             {Object.values(dummy).map((item, index) => (
               <div key={index}>
-                <ProductCard product={item} />
+                <Link href={`/product/${item.id}`}>
+                  <ProductCard product={item} />
+                </Link>
               </div>
             ))}
           </div>
