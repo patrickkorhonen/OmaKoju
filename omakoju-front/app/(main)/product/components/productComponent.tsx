@@ -56,8 +56,8 @@ export default function ProductComponent({ id }: ProductComponentProps) {
 
   return (
     <div className="min-h-screen lg:my-8 p-4 xl:p-0">
-      <div className="w-full h-[70vh] xl:w-2/3 grid grid-cols-2 gap-8 p-4 place-self-center">
-        <div className="h-full">
+      <div className="w-full h-screen sm:h-[70vh] xl:w-2/3 grid sm:grid-cols-2 gap-8 p-4 place-self-center">
+        <div className="h-[60vh]">
           <div className="relative w-full h-full bg-gray-50 rounded-xl">
             <Image
               src={dummy.item.imageUrl[imageNumber]}
