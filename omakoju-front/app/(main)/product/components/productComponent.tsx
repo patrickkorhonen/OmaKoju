@@ -69,13 +69,13 @@ export default function ProductComponent({ id }: ProductComponentProps) {
             <div className="flex w-full  px-4 top-1/2 justify-between absolute">
               <button
                 onClick={() => handlePreviousImage()}
-                className="bg-black p-2 rounded-full opacity-60 text-white hover:opacity-80"
+                className="bg-black p-4 rounded-full opacity-60 text-white hover:opacity-80"
               >
                 <FaArrowLeft />
               </button>
               <button
                 onClick={() => handleNextImage()}
-                className="bg-black p-2 rounded-full opacity-60 text-white hover:opacity-80"
+                className="bg-black p-4 rounded-full opacity-60 text-white hover:opacity-80"
               >
                 <FaArrowRight />
               </button>
@@ -90,7 +90,7 @@ export default function ProductComponent({ id }: ProductComponentProps) {
                 {dummy.item.price} €
               </p>
               <p className="">Stock: Last Piece</p>
-              <button className="w-full bg-blue-500 text-white font-bold rounded p-2">
+              <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded p-2">
                 Add to Cart
               </button>
             </div>
