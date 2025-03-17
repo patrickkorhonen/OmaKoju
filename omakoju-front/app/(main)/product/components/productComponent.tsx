@@ -27,6 +27,7 @@ const dummy = {
     name: "Kamera",
     price: 109.99,
     stock: 52,
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc nunc turpis, pulvinar sed massa ac, tempus sollicitudin eros. Etiam semper maximus erat sed fermentum. Sed in velit eget orci mattis luctus id quis lorem. Ut risus lorem, commodo in porta.",
     imageUrl: [
       "/photos/taulu.jpg",
       "/photos/kamera.jpg",
@@ -82,17 +83,20 @@ export default function ProductComponent({ id }: ProductComponentProps) {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2">
-          <div className="">
-            <h1 className="text-3xl font-bold">{dummy.item.name}</h1>
-            <div className="">
-              <p className="text-2xl tracking-wide my-8">
+        <div className="grid grid-cols-3">
+          <div className="col-span-2">
+            <h1 className="text-4xl ">{dummy.item.name}</h1>
+            <div className="flex flex-col gap-8 my-8">
+              <p className="text-xl tracking-wide">
                 {dummy.item.price} €
               </p>
               <p className="">Stock: Last Piece</p>
               <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded p-2">
                 Add to Cart
               </button>
+              <p className="tracking-wide">
+                {dummy.item.description}
+              </p>
             </div>
           </div>
           <></>
