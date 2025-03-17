@@ -27,8 +27,15 @@ const dummy = {
     name: "Kamera",
     price: 109.99,
     stock: 52,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc nunc turpis, pulvinar sed massa ac, tempus sollicitudin eros. Etiam semper maximus erat sed fermentum. Sed in velit eget orci mattis luctus id quis lorem. Ut risus lorem, commodo in porta.",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc nunc turpis, pulvinar sed massa ac, tempus sollicitudin eros. Etiam semper maximus erat sed fermentum. Sed in velit eget orci mattis luctus id quis lorem. Ut risus lorem, commodo in porta.",
     imageUrl: [
+      "/photos/taulu.jpg",
+      "/photos/kamera.jpg",
+      "/photos/majakka.jpg",
+      "/photos/taulu.jpg",
+      "/photos/kamera.jpg",
+      "/photos/majakka.jpg",
       "/photos/taulu.jpg",
       "/photos/kamera.jpg",
       "/photos/majakka.jpg",
@@ -82,21 +89,35 @@ export default function ProductComponent({ id }: ProductComponentProps) {
               </button>
             </div>
           </div>
+          <div className="flex flex-nowrap gap-4 overflow-x-auto my-4">
+            {dummy.item.imageUrl.map((image, index) => (
+              <div key={index}>
+                <button
+                  onClick={() => setImageNumber(index)}
+                  className="relative h-20 w-20"
+                >
+                  <Image
+                    src={image}
+                    alt={"tuote"}
+                    layout="fill"
+                    objectFit="contain"
+                    className="rounded-xl border h-20 w-full"
+                  />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
         <div className="grid grid-cols-3">
           <div className="col-span-2">
             <h1 className="text-4xl ">{dummy.item.name}</h1>
             <div className="flex flex-col gap-8 my-8">
-              <p className="text-xl tracking-wide">
-                {dummy.item.price} €
-              </p>
+              <p className="text-xl tracking-wide">{dummy.item.price} €</p>
               <p className="">Stock: Last Piece</p>
               <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded p-2">
                 Add to Cart
               </button>
-              <p className="tracking-wide">
-                {dummy.item.description}
-              </p>
+              <p className="tracking-wide">{dummy.item.description}</p>
             </div>
           </div>
           <></>
