@@ -24,6 +24,7 @@ const dummy = {
   item: {
     id: "1",
     shopId: "fc4a64b1-3b99-4e45-b892-49578a3db00f",
+    seller: "Camera Shop",
     name: "Kamera",
     price: 109.99,
     stock: 52,
@@ -63,8 +64,8 @@ export default function ProductComponent({ id }: ProductComponentProps) {
   };
 
   return (
-    <div className="sm:min-h-screen lg:my-8 p-4 xl:p-0">
-      <div className="w-full sm:h-[70vh]  xl:w-2/3 grid sm:grid-cols-2 gap-8 p-4 place-self-center">
+    <div className="sm:min-h-screen lg:my-8 p-4 xl:p-0 ">
+      <div className="w-full sm:h-[70vh]  xl:w-2/3 grid sm:grid-cols-2 gap-8 p-4 place-self-center mb-40">
         <div className="sm:h-[60vh] h-60 ">
           <div className="relative w-full h-full bg-gray-50 rounded-xl">
             <Image
@@ -109,8 +110,9 @@ export default function ProductComponent({ id }: ProductComponentProps) {
           </div>
         </div>
         <div className="grid grid-cols-3 ">
-          <div className="col-span-2">
-            <h1 className="text-4xl ">{dummy.item.name}</h1>
+          <div className="sm:col-span-3 2xl:col-span-2">
+            <p className="text-sm">{dummy.item.seller}</p>
+            <h1 className="text-4xl">{dummy.item.name}</h1>
             <div className="flex flex-col gap-8 my-8">
               <p className="text-xl tracking-wide">{dummy.item.price} €</p>
               <p className="">Stock: Last Piece</p>
@@ -128,6 +130,7 @@ export default function ProductComponent({ id }: ProductComponentProps) {
           <></>
         </div>
       </div>
+      <hr className="mx-10"></hr>
     </div>
   );
 }
