@@ -63,9 +63,9 @@ export default function ProductComponent({ id }: ProductComponentProps) {
   };
 
   return (
-    <div className="min-h-screen lg:my-8 p-4 xl:p-0">
-      <div className="w-full h-screen sm:h-[70vh] xl:w-2/3 grid sm:grid-cols-2 gap-8 p-4 place-self-center">
-        <div className="h-[60vh]">
+    <div className="sm:min-h-screen lg:my-8 p-4 xl:p-0">
+      <div className="w-full sm:h-[70vh]  xl:w-2/3 grid sm:grid-cols-2 gap-8 p-4 place-self-center">
+        <div className="sm:h-[60vh] h-60 ">
           <div className="relative w-full h-full bg-gray-50 rounded-xl">
             <Image
               src={dummy.item.imageUrl[imageNumber]}
@@ -89,7 +89,7 @@ export default function ProductComponent({ id }: ProductComponentProps) {
               </button>
             </div>
           </div>
-          <div className="flex flex-nowrap gap-4 overflow-x-auto my-4">
+          <div className="hidden sm:flex gap-4 overflow-x-auto my-4 ">
             {dummy.item.imageUrl.map((image, index) => (
               <div key={index}>
                 <button
@@ -108,15 +108,20 @@ export default function ProductComponent({ id }: ProductComponentProps) {
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-3 ">
           <div className="col-span-2">
             <h1 className="text-4xl ">{dummy.item.name}</h1>
             <div className="flex flex-col gap-8 my-8">
               <p className="text-xl tracking-wide">{dummy.item.price} €</p>
               <p className="">Stock: Last Piece</p>
-              <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded p-2">
+              <div className="flex flex-col gap-2">
+              <button className="w-full border border-blue-500 hover:shadow-sm hover:shadow-blue-600  text-blue-500 font-bold rounded p-2">
                 Add to Cart
               </button>
+              <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded p-2">
+                Buy Now
+              </button>
+              </div>
               <p className="tracking-wide">{dummy.item.description}</p>
             </div>
           </div>
