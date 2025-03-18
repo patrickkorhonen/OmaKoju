@@ -2,6 +2,7 @@ import express from "express";
 import authMiddleware from "./middlewares/authMiddleware.js";
 import authRoutes from "./routes/authRoutes.js";
 import shopRoutes from "./routes/shopRoutes.js"
+import productRoutes from "./routes/productRoutes.js"
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -16,5 +17,7 @@ app.use(cookieParser());
 app.use("/shop", shopRoutes)
 
 app.use("/auth", authRoutes);
+
+app.use("/product", productRoutes)
 
 app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
