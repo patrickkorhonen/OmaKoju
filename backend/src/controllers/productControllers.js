@@ -2,9 +2,22 @@ import prisma from "../prismaClient.js";
 
 export const addProduct = async (req, res) => {
     const { shopId, name, price, stock, imageUrl } = req.body;
-    //const UID = req.userId;
+    const UID = req.userId;
 
     try {
+        const ownShop = await prisma.shop.findUnique({
+            where: {
+              id: shopId,
+              userId: UID
+            },
+          });
+      
+          if (!ownShop) {
+            return res
+              .status(409)
+              .send({ message: "Unauthorized action" });
+          }
+
         const product = await prisma.product.create({
             data: {
                 shopId,
