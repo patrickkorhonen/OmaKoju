@@ -1,5 +1,4 @@
 import express from "express";
-import prisma from "../prismaClient.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import { createShop, updateShop, getAllShops, getUsersShops, getShop, deleteShop } from "../controllers/shopControllers.js";
 
