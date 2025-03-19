@@ -27,7 +27,7 @@ model User {
 }
 
 model Shop {
-  id            String  @id @default(uuid())  
+  id            Int  @id @default(autoincrement())  
   user          User    @relation(fields: [userId], references: [id])
   userId        String    
   shopName      String  @unique 
@@ -42,15 +42,15 @@ model Shop {
 }
 
 model Product {
-  id          String  @id @default(uuid())  
+  id          Int  @id @default(autoincrement())  
   shop        Shop    @relation(fields: [shopId], references: [id])
-  shopId      String  
+  shopId      Int  
   name        String  
   price       Float  
   stock       Int  
   imageUrl    String?
   isActive    Boolean @default(true)
-  orderItems  OrderItem[]
+  orderItems  OrderItem[] 
   reviews     Review[]  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -61,7 +61,7 @@ model Order {
   user        User    @relation(fields: [userId], references: [id])
   userId      String  
   shop        Shop    @relation(fields: [shopId], references: [id])
-  shopId      String  
+  shopId      Int  
   orderItems  OrderItem[]
   status      OrderStatus @default(PENDING)
   totalPrice  Float  
@@ -70,11 +70,11 @@ model Order {
 }
 
 model OrderItem {
-  id         String  @id @default(uuid())  
+  id         Int  @id @default(autoincrement())  
   order      Order   @relation(fields: [orderId], references: [id])
   orderId    String  
   product    Product @relation(fields: [productId], references: [id])
-  productId  String  
+  productId  Int  
   quantity   Int  
   price      Float  
   createdAt  DateTime @default(now())
@@ -82,11 +82,11 @@ model OrderItem {
 }
 
 model Review {
-  id         String  @id @default(uuid())  
+  id         Int  @id @default(autoincrement())  
   user       User    @relation(fields: [userId], references: [id])
   userId     String  
   product    Product @relation(fields: [productId], references: [id])
-  productId  String  
+  productId  Int  
   rating     Int     @default(5)
   comment    String?  
   createdAt  DateTime @default(now())
