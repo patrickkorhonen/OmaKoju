@@ -34,9 +34,11 @@ const Navbar = () => {
     const fetchData = async () => {
       if (user != undefined) {
         const response = await GETuserShops();
-        const data = await response.json();
-        if (data) {
-          setUserShops(data);
+        if (response && response.ok) {
+          const data = await response.json();
+          if (data) {
+            setUserShops(data);
+          }
         }
       }
       setLoading(false);

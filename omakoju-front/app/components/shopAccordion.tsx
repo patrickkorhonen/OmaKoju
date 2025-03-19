@@ -30,7 +30,7 @@ const TrendingShops = () => {
   useEffect(() => {
     const fetchShops = async () => {
       const response = await GETshops();
-      if (response) {
+      if (response && response.ok) {
         const data = await response.json();
         setShops(data);
       }

@@ -39,32 +39,32 @@ const dummy = {
 };
 
 export default function ShopComponent({ id }: ShopComponentProps) {
-  const [name, setName] = useState<string>();
-  const [description, setDescription] = useState<string>();
+  const [name, setName] = useState<string>("Gauppa");
+  const [description, setDescription] = useState<string>("kuvaus");
   //const [owner, setOwner] = useState(false);
   const [logo, setLogo] = useState<null | string>(null);
   const [banner, setBanner] = useState<null | string>(null);
 
-  useEffect(() => {
-    const fetchShop = async () => {
-      console.log("kauppa haetaan")
-      const response = await GETshop(id);
-      if (response && response.ok) {
-        const data = await response.json();
-        setName(data.shopName);
-        setDescription(data.description);
-        setLogo(data.logoPicture);
-        setBanner(data.bannerPicture);
-        //const userFetch = await getUser();
-        // if (userFetch != undefined) {
-          // if (userFetch.id === data.userId) setOwner(true);
-        // }
-      } else {
-        window.location.replace("/");
-      }
-    };
-    fetchShop();
-  });
+  // useEffect(() => {
+  //   const fetchShop = async () => {
+  //     console.log("kauppa haetaan")
+  //     const response = await GETshop(id);
+  //     if (response && response.ok) {
+  //       const data = await response.json();
+  //       setName(data.shopName);
+  //       setDescription(data.description);
+  //       setLogo(data.logoPicture);
+  //       setBanner(data.bannerPicture);
+  //       //const userFetch = await getUser();
+  //       // if (userFetch != undefined) {
+  //         // if (userFetch.id === data.userId) setOwner(true);
+  //       // }
+  //     } else {
+  //       window.location.replace("/");
+  //     }
+  //   };
+  //   fetchShop();
+  // });
 
   return (
     <main className="min-h-screen lg:my-8 p-4 xl:p-0 bg-white">
