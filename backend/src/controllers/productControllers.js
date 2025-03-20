@@ -35,6 +35,20 @@ export const addProduct = async (req, res) => {
   }
 };
 
+export const getShopProducts = async (req, res) => {
+    const { shopId } = req.body;
+    try {
+        const products = await prisma.product.findMany({
+            where: {
+                shopId
+            }
+        })
+        res.json(products)
+    } catch (err) {
+        console.log("error", err)
+    }
+}
+
 export const deleteProduct = async (req, res) => {
   const { shopId, id } = req.body;
   const UID = req.userId;
