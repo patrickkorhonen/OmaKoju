@@ -166,7 +166,7 @@ export const getShop = async (req, res) => {
     const slug = req.params.id;
     const shop = await prisma.shop.findUnique({
       where: {
-        id: slug,
+        id: Number(slug),
       },
       select: {
         userId: true,
