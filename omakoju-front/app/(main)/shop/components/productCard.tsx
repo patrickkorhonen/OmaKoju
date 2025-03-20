@@ -29,7 +29,7 @@ export default function ProductCard({ product }: Product) {
       <div className="flex flex-col gap-2 p-4">
         <p className="font-semibold">{product.name}</p>
         <p className="text-gray-600 text-sm">Lyhyt kuvaus tuotteesta.</p>
-        <p className="font-bold text-end my-2 text-xl tracking-wide">{product.price} €</p>
+        <p className="font-bold text-end mt-4 text-xl tracking-wide">{product.price} €</p>
       </div>
     </div>
   );
