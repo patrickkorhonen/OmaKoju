@@ -15,7 +15,7 @@ import { DeleteShop } from "@/app/api/shop";
 import { Shop } from "@/interface";
 
 interface deleteShopInterface {
-  id: string;
+  id: number;
   name: string;
   userShops: Shop[];
   setUserShops: Dispatch<SetStateAction<Shop[]>>;
