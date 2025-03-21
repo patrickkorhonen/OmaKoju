@@ -19,7 +19,7 @@ export interface User {
 
 
 export interface Shop {
-  id: string;
+  id: number;
   user: User;
   userId: string;
   shopName: string;
@@ -31,4 +31,13 @@ export interface Shop {
   bannerPicture: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface Product {
+  id: number;
+  shop: Shop;
+  name: string;
+  price: number;
+  stock: number;
+  imageUrl: string | null;
 }
