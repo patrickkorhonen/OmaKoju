@@ -36,11 +36,11 @@ export const addProduct = async (req, res) => {
 };
 
 export const getShopProducts = async (req, res) => {
-    const { shopId } = req.body;
     try {
+      const slug = req.params.id;
         const products = await prisma.product.findMany({
             where: {
-                shopId
+                shopId: Number(slug)
             }
         })
         res.json(products)
