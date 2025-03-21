@@ -1,25 +1,26 @@
 "use client";
 import Image from "next/image";
+import { Product } from "@/interface";
 
-type Product = {
-  product: product;
+type product = {
+  product: Product;
 };
 
-interface product {
-  id: string;
-  shopId: string;
-  name: string;
-  price: number;
-  stock: number;
-  imageUrl: string[];
-}
+// interface product {
+//   id: number;
+//   shopId: string;
+//   name: string;
+//   price: number;
+//   stock: number;
+//   imageUrl: string[] | null;
+// }
 
-export default function ProductCard({ product }: Product) {
+export default function ProductCard({ product }: product) {
   return (
     <div className="shadow-lg shadow-gray-300 hover:shadow-gray-400 rounded-xl">
       <div className="relative w-full h-40 sm:h-64">
         <Image
-          src={product.imageUrl[0]}
+          src={product.imageUrl ? product.imageUrl[0] : "/photos/kamera.jpg"}
           alt={"tuote"}
           layout="fill"
           objectFit="cover"
