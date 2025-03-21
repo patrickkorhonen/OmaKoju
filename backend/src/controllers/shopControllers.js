@@ -6,9 +6,12 @@ export const createShop = async (req, res) => {
   const UID = req.userId;
 
   try {
-    const existingShop = await prisma.shop.findUnique({
+    const existingShop = await prisma.shop.findFirst({
       where: {
-        shopName: shopName,
+        shopName: {
+          equals: shopName,
+          mode: "insensitive",
+        },
       },
     });
 
