@@ -113,7 +113,7 @@ export async function CreateShop(
 }
 
 export async function UpdateShop(
-  id: string,
+  id: number,
   shopName: string,
   description: string,
   isActive: boolean,
@@ -122,7 +122,7 @@ export async function UpdateShop(
 ) {
   try {
     const requestBody: {
-      id: string;
+      id: number;
       shopName: string;
       description: string;
       isActive: boolean;
@@ -161,7 +161,7 @@ export async function UpdateShop(
   }
 }
 
-export async function DeleteShop(id: string) {
+export async function DeleteShop(id: number) {
   try {
     const response = await fetch(`http://localhost:4000/shop/delete`, {
       method: "DELETE",
