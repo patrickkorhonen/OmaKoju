@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/add", authMiddleware, addProduct)
 
-router.get("/shop-products", getShopProducts)
+router.get("/shop-products/:id", getShopProducts)
 
 router.delete("/delete", authMiddleware, deleteProduct)
 
