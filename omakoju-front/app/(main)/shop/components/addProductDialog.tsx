@@ -123,6 +123,8 @@ export default function AddProductDialog({ id }: { id: string }) {
             >
               Add
             </button> */}
+            <div className="flex justify-between w-full">
+            <button className="px-4 py-2 rounded text-white font-semibold bg-red-500">Close</button>
             {uploading ? (
               <div className="bg-bgGreen items-center flex rounded cursor-default font-bold text-white col-span-2 p-2">
                 <MoonLoader
@@ -145,13 +147,14 @@ export default function AddProductDialog({ id }: { id: string }) {
                 }}
                 className={
                   name && price && stock
-                    ? "bg-bgGreen rounded font-bold text-white col-span-2 p-2"
-                    : "bg-[#617f65] rounded cursor-default font-bold text-white col-span-2 p-2"
+                    ? "bg-bgGreen rounded font-semibold text-white col-span-2 px-4 py-2"
+                    : "bg-[#617f65] rounded cursor-default font-semibold text-white col-span-2 px-4 py-2"
                 }
               >
                 Add
               </button>
             )}
+            </div>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
