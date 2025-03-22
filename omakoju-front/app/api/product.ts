@@ -54,3 +54,28 @@ export async function GetProducts(shopId: string) {
     console.log("error", err);
   }
 }
+
+export async function GetProduct(id: string) {
+  try {
+    const response = await fetch(
+      `http://localhost:4000/product/${id}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    if (response.ok && data) {
+      return Response.json(data);
+    } else {
+      return new Response("Couldn't fetch product", {
+        status: 400,
+      });
+    }
+  } catch (err) {
+    console.log("error", err);
+  }
+}
