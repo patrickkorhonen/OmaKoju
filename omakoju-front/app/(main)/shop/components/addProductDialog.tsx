@@ -52,7 +52,7 @@ export default function AddProductDialog({ id }: { id: string }) {
 
   return (
     <Dialog>
-      <DialogTrigger className="border-2 border-black rounded-xl p-2 w-full bg-black text-white font-bold">
+      <DialogTrigger className="border-2 border-black rounded p-2 w-full bg-black text-white font-bold">
         Add Product +
       </DialogTrigger>
       <DialogContent className="bg-white">
