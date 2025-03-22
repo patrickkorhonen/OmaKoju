@@ -49,6 +49,27 @@ export const getShopProducts = async (req, res) => {
     }
 }
 
+export const getProduct = async (req, res) => {
+  try {
+    const slug = req.params.id
+    const product = await prisma.product.findUnique({
+      where: {
+        id: Number(slug)
+      },
+      include: {
+        shop: {
+          select: {
+            shopName: true
+          },
+        },
+      },
+    });
+    res.json(product)
+  } catch (err) {
+    console.log("error", err)
+  }
+}
+
 export const deleteProduct = async (req, res) => {
   const { shopId, id } = req.body;
   const UID = req.userId;
