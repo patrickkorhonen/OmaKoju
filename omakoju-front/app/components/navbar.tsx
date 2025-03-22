@@ -71,7 +71,7 @@ const Navbar = () => {
         ) : user ? (
           <div className="flex gap-4 w-full justify-end">
             <DropdownMenu>
-              <DropdownMenuTrigger className="outline-none border-2 text-sm  border-bgGreen text-bgGreen font-bold px-4 rounded-sm">
+              <DropdownMenuTrigger className="outline-none place-self-center border text-sm  border-bgGreen text-bgGreen font-semibold px-4 py-2 hover:border-b-2">
                 {user.name}
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-white">
@@ -96,7 +96,7 @@ const Navbar = () => {
             </DropdownMenu>
             {userShops.length > 0 && (
               <Link
-                className="rounded-sm bg-black text-white text-sm  font-bold px-4 flex items-center"
+                className="bg-black text-white border border-black text-sm place-self-center font-semibold px-4 py-2 flex items-center"
                 href={"/dashboard"}
               >
                 Dashboard
@@ -105,7 +105,7 @@ const Navbar = () => {
 
             <button
               onClick={() => handleLogout()}
-              className="bg-[#013220] hover:bg-[#274d3f] text-white text-nowrap rounded-sm px-4 text-sm font-bold"
+              className="bg-bgGreen hover:bg-bgGreenHover border border-bgGreen place-self-center text-white text-nowrap px-4 py-2 text-sm font-semibold"
             >
               Log out
             </button>
@@ -114,13 +114,13 @@ const Navbar = () => {
           <div className="flex gap-4 w-full justify-end">
             <Link
               href="/login"
-              className="place-self-center underline text-sm  underline-offset-2"
+              className="place-self-center text-sm border border-bgGreen text-bgGreen font-semibold px-4 py-2 hover:shadow-md hover:border-b-2"
             >
               Log in
             </Link>
             <Link
               href="/signup"
-              className="bg-[#013220] hover:bg-[#274d3f] text-sm  text-white rounded-sm px-4 font-bold flex items-center"
+              className="bg-bgGreen hover:bg-bgGreenHover place-self-center text-sm text-white font-semibold border border-bgGreen px-4 py-2 hover:shadow-md"
             >
               <p>Sign up</p>
             </Link>
