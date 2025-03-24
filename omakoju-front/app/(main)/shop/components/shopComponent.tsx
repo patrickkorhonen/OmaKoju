@@ -9,22 +9,23 @@ import Link from "next/link";
 import OwnerMenu from "./ownerMenu";
 import { GetProducts } from "@/app/api/product";
 import { Product } from "@/interface";
+import { useUser } from "@/app/context/context";
 
 interface ShopComponentProps {
   id: string;
 }
 
 export default function ShopComponent({ id }: ShopComponentProps) {
+  const { user } = useUser();
   const [name, setName] = useState<string>();
   const [description, setDescription] = useState<string>();
-  //const [owner, setOwner] = useState(false);
+  const [owner, setOwner] = useState(false);
   const [logo, setLogo] = useState<null | string>(null);
   const [banner, setBanner] = useState<null | string>(null);
-  const [products, setProducts] = useState<Product[]>()
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchShop = async () => {
-      console.log("kauppa haetaan")
       const response = await GETshop(id);
       if (response && response.ok) {
         const data = await response.json();
@@ -32,32 +33,31 @@ export default function ShopComponent({ id }: ShopComponentProps) {
         setDescription(data.description);
         setLogo(data.logoPicture);
         setBanner(data.bannerPicture);
-        //const userFetch = await getUser();
-        // if (userFetch != undefined) {
-          // if (userFetch.id === data.userId) setOwner(true);
-        // }
+        if (user && data.userId === user.id) {
+          setOwner(true)
+        }
       } else {
         window.location.replace("/");
       }
     };
     fetchShop();
-  }, [id]);
+  }, [id, user]);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await GetProducts(id)
+      const response = await GetProducts(id);
       if (response && response.ok) {
-        const data = await response.json()
-        console.log(data)
-        setProducts(data)
+        const data = await response.json();
+        console.log(data);
+        setProducts(data);
       }
-    }
-    fetchProducts()
-  }, [id])
+    };
+    fetchProducts();
+  }, [id]);
 
   return (
     <main className="min-h-screen p-4 xl:p-0 bg-white">
-      <OwnerMenu id={id}/>
+      {owner && <OwnerMenu id={id} products={products} setProducts={setProducts}/>}
       {name && description ? (
         <div className="w-full xl:w-2/3 px-2 xl:px-0 mb-8 lg:pt-8 place-self-center">
           <div className="flex w-full h-full place-self-center rounded-xl mb-8">
@@ -118,13 +118,14 @@ export default function ShopComponent({ id }: ShopComponentProps) {
           </div>
           <hr className="my-8"></hr>
           <div className="grid gap-4 sm:gap-8 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
-            {products && products.map((item, index) => (
-              <div key={index}>
-                <Link href={`/product/${item.id}`}>
-                  <ProductCard product={item} />
-                </Link>
-              </div>
-            ))}
+            {products &&
+              products.map((item, index) => (
+                <div key={index}>
+                  <Link href={`/product/${item.id}`}>
+                    <ProductCard product={item} />
+                  </Link>
+                </div>
+              ))}
           </div>
         </div>
       ) : (
@@ -142,7 +143,6 @@ export default function ShopComponent({ id }: ShopComponentProps) {
           />
         </div>
       )}
-      
     </main>
   );
 }
