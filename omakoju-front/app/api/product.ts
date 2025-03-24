@@ -16,9 +16,7 @@ export async function CreateProduct(
     });
     const data = await response.json();
     if (response.ok) {
-      return new Response("Product successfully created.", {
-        status: 200,
-      });
+      return Response.json(data);
     } else {
       console.log("Error response from server:", data.message);
       return new Response(data.message || "Error during product addition.", {
