@@ -13,9 +13,16 @@ import { useToast } from "@/hooks/use-toast";
 import { CreateProduct } from "@/app/api/product";
 import MoonLoader from "react-spinners/MoonLoader";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Product } from "@/interface";
 
-export default function AddProductDialog({ id }: { id: string }) {
+type addProduct = {
+  id: string;
+  products: Product[];
+  setProducts: Dispatch<SetStateAction<Product[]>>;
+}
+
+export default function AddProductDialog({ id, products, setProducts }: addProduct) {
   const { toast } = useToast();
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
@@ -25,6 +32,7 @@ export default function AddProductDialog({ id }: { id: string }) {
 
   const addProduct = async () => {
     if (id && name && price && stock) {
+      console.log("ollaanko täällä")
       const response = await CreateProduct(
         Number(id),
         name,
@@ -33,7 +41,10 @@ export default function AddProductDialog({ id }: { id: string }) {
         null
       );
       if (response && response.ok) {
+        const data = await response.json()
+        console.log("123456789", data.product)
         setUploading(false);
+        setProducts([...products, data.product])
         toast({
           className:
             "bg-green-500 rounded-none border-0 text-white font-bold p-8",
