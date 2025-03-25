@@ -25,7 +25,7 @@ export default function ProductCard({ product }: product) {
       {!product.isActive && (
       <p className="absolute z-10 top-1/2 text-center bg-gray-400 w-full font-semibold text-lg">Inactive</p>
       )}
-      <div className="relative w-full h-40 sm:h-64">
+      <div className="relative w-full h-40 sm:h-52">
         <Image
           src={product.imageUrl ? product.imageUrl[0] : "/photos/kamera.jpg"}
           alt={"tuote"}
