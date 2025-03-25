@@ -17,8 +17,8 @@ interface ShopComponentProps {
 
 export default function ShopComponent({ id }: ShopComponentProps) {
   const { user } = useUser();
-  const [name, setName] = useState<string>();
-  const [description, setDescription] = useState<string>();
+  const [name, setName] = useState<string>("kauppa");
+  const [description, setDescription] = useState<string>("kuvaus");
   const [owner, setOwner] = useState(false);
   const [logo, setLogo] = useState<null | string>(null);
   const [banner, setBanner] = useState<null | string>(null);
@@ -54,6 +54,10 @@ export default function ShopComponent({ id }: ShopComponentProps) {
     };
     fetchProducts();
   }, [id]);
+
+    const filteredProducts = owner
+    ? products
+    : products.filter((product) => product.isActive);
 
   return (
     <main className="min-h-screen p-4 xl:p-0 bg-white">
@@ -118,14 +122,13 @@ export default function ShopComponent({ id }: ShopComponentProps) {
           </div>
           <hr className="my-8"></hr>
           <div className="grid gap-4 sm:gap-8 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
-            {products &&
-              products.map((item, index) => (
-                <div key={index}>
-                  <Link href={`/product/${item.id}`}>
-                    <ProductCard product={item} />
-                  </Link>
-                </div>
-              ))}
+          {filteredProducts && filteredProducts.map((item) => (
+              <div key={item.id}>
+                <Link href={`/product/${item.id}`}>
+                  <ProductCard product={item} />
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       ) : (
