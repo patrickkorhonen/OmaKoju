@@ -17,12 +17,12 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { Product } from "@/interface";
 
 type addProduct = {
-  id: string;
+  shopId: string;
   products: Product[];
   setProducts: Dispatch<SetStateAction<Product[]>>;
 }
 
-export default function AddProductDialog({ id, products, setProducts }: addProduct) {
+export default function AddProductDialog({ shopId, products, setProducts }: addProduct) {
   const { toast } = useToast();
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
@@ -31,10 +31,10 @@ export default function AddProductDialog({ id, products, setProducts }: addProdu
   const [uploading, setUploading] = useState(false);
 
   const addProduct = async () => {
-    if (id && name && price && stock) {
+    if (shopId && name && price && stock) {
       console.log("ollaanko täällä")
       const response = await CreateProduct(
-        Number(id),
+        Number(shopId),
         name,
         Number(price),
         Number(stock),
