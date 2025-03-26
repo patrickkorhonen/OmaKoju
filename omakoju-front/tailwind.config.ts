@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)"],
+        newsreader: ["var(--font-newsreader)"],
         mono: ["var(--font-roboto-mono)"],
       },
       colors: {
