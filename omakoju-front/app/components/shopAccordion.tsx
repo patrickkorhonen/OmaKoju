@@ -44,9 +44,9 @@ const TrendingShops = () => {
       defaultValue={["trending", "new", "favorites"]}
       type="multiple"
     >
-      <AccordionItem value="trending" className="bg-white p-4 rounded-xl border-0">
-        <AccordionTrigger className="text-2xl font-extrabold rounded hover:no-underline">
-        🔥 Trending Shops
+      <AccordionItem value="trending" className="p-4 border-0">
+        <AccordionTrigger className="rounded hover:no-underline">
+        <h1 className="text-2xl font-semibold">🔥 Trending Shops</h1>
         </AccordionTrigger>
         <AccordionContent>
           <Carousel className="mx-12 ">
@@ -55,7 +55,7 @@ const TrendingShops = () => {
             <CarouselContent>
               {shops.slice(0, 8).map((shop, index) => (
                 <CarouselItem className="lg:basis-1/2 xl:basis-1/3 flex" key={index}>
-                  <div className="rounded-xl shadow-lg mb-4 m-4 transform hover:scale-105 transition ">
+                  <div className="rounded shadow-lg mb-4 m-4 transform hover:scale-105 transition ">
                     <Link href={`/shop/${shop.id}`} key={index}>
                       <div className="relative ">
                         {shop.bannerPicture ? (
@@ -65,7 +65,7 @@ const TrendingShops = () => {
                             width={0}
                             height={0}
                             style={{ width: "100%", height: "auto" }}
-                            className="rounded-t-xl shadow-md"
+                            className="rounded-t shadow-md"
                           />
                         ) : (
                           <Image
@@ -74,7 +74,7 @@ const TrendingShops = () => {
                             width={0}
                             height={0}
                             style={{ width: "100%", height: "auto" }}
-                            className="rounded-t-xl shadow-md"
+                            className="rounded-t shadow-md"
                           />
                         )}
                       </div>
