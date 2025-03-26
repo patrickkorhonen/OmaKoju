@@ -77,3 +77,33 @@ export async function GetProduct(id: string) {
     console.log("error", err);
   }
 }
+
+export async function DeleteProduct(shopId: number, id: number) {
+  try {
+    const response = await fetch(
+      `http://localhost:4000/product/delete`,
+      {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ shopId, id }),
+      }
+    )
+    if (response.ok) {
+      return new Response("deleted", {
+        status: 200,
+      });
+    } else {
+      return new Response("Delete failed", {
+        status: 404,
+      });
+    }
+  } catch (err) {
+    console.log("error", err)
+    return new Response("error", {
+      status: 400,
+    });
+  }
+}
