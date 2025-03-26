@@ -18,14 +18,16 @@ import {
 } from "@/components/ui/dialog";
 import { Dispatch, SetStateAction, useState } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { DeleteProduct } from "@/app/api/product";
 
 type manageProduct = {
-  //id: string;
+  shopId: string;
   products: Product[];
   setProducts: Dispatch<SetStateAction<Product[]>>;
 };
 
 export default function ManageProducts({
+  shopId,
   products,
   setProducts,
 }: manageProduct) {
@@ -44,9 +46,12 @@ export default function ManageProducts({
     }
   };
 
-  const deleteProduct = (product: Product) => {
-    setProducts(products.filter((item) => item.id != product.id))
-  }
+  const deleteProduct = async (product: Product) => {
+    const response = await DeleteProduct(Number(shopId), product.id);
+    if (response.ok) {
+      setProducts(products.filter((item) => item.id != product.id));
+    }
+  };
 
   return (
     <main>
@@ -128,19 +133,43 @@ export default function ManageProducts({
                         />
                       </span>
                     </div>
-                    <DialogFooter className="flex w-full text-white font-semibold">
+                    <DialogFooter className="flex text-xs sm:text-base flex-row gap-4 w-full text-white font-semibold">
+                      <div className="mr-auto flex gap-8">
+                        <DialogClose className="text-black">Cancel</DialogClose>
+                        <Dialog>
+                          <DialogTrigger className="bg-red-500 p-2 rounded mr-auto">
+                            Delete Product
+                          </DialogTrigger>
+                          <DialogContent className="bg-white">
+                            <DialogHeader>
+                              <DialogTitle>
+                                Are you absolutely sure?
+                              </DialogTitle>
+                              <DialogDescription>
+                                This action cannot be undone. This will
+                                permanently delete this product.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <DialogFooter className="flex w-full">
+                              <DialogClose className="mr-auto">
+                                Cancel
+                              </DialogClose>
+                              <DialogClose
+                                onClick={() => deleteProduct(product)}
+                                className="bg-red-500 p-2 rounded text-white font-semibold"
+                              >
+                                Delete
+                              </DialogClose>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
+                      </div>
                       <DialogClose
-                          onClick={() => deleteProduct(product)}
-                          className="bg-red-500 p-2 rounded mr-auto"
-                        >
-                          Delete Product
-                        </DialogClose>
-                        <DialogClose
-                          onClick={() => updateProduct(product)}
-                          className="bg-blue-500 p-2 rounded"
-                        >
-                          Save Changes
-                        </DialogClose>
+                        onClick={() => updateProduct(product)}
+                        className="bg-blue-500 p-2 rounded"
+                      >
+                        Save Changes
+                      </DialogClose>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
