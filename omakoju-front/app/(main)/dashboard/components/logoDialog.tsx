@@ -14,6 +14,7 @@ import Slider from "@mui/material/Slider";
 import { useState } from "react";
 import { Point, Area } from "react-easy-crop";
 import getCroppedImgLogo from "@/app/components/cropImageLogo";
+import { Input } from "@/components/ui/input";
 
 interface logoInterface {
   logo: string;
@@ -73,12 +74,12 @@ export default function LogoDialog({ logo, handleNewLogo }: logoInterface) {
               height={0}
               style={{ width: "30%", height: "auto" }}
             />
-            <input
+            <Input
               type="file"
               accept=".jpg, .jpeg, .png, .avif"
               name="logo"
               id="logo"
-              className="p-4 w-full border border-gray-300 focus:border-black outline-none rounded-md"
+              //className="p-4 w-full border border-gray-300 focus:border-black outline-none rounded-md"
               onChange={(e) => {
                 if (e.target.files) {
                   setNewLogo(URL.createObjectURL(e.target.files[0]));

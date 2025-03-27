@@ -14,6 +14,7 @@ import Slider from "@mui/material/Slider";
 import { useState } from "react";
 import { Point, Area } from "react-easy-crop";
 import getCroppedImgBanner from "@/app/components/cropImageBanner";
+import { Input } from "@/components/ui/input";
 
 interface bannerInterface {
   banner: string;
@@ -76,12 +77,12 @@ export default function BannerDialog({
               height={0}
               style={{ width: "100%", height: "auto" }}
             />
-            <input
+            <Input
               type="file"
               accept=".jpg, .jpeg, .png, .avif"
               name="banner"
               id="banner"
-              className="p-4 w-full border border-gray-300 focus:border-black outline-none rounded-md"
+              //className="p-4 w-full border border-gray-300 focus:border-black outline-none rounded-md"
               onChange={(e) => {
                 if (e.target.files) {
                   setNewBanner(URL.createObjectURL(e.target.files[0]));

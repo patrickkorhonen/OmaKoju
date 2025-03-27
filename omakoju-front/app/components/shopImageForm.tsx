@@ -7,6 +7,7 @@ import Slider from "@mui/material/Slider";
 import getCroppedImgLogo from "./cropImageLogo";
 import getCroppedImgBanner from "./cropImageBanner";
 import MoonLoader from "react-spinners/MoonLoader";
+import { Input } from "@/components/ui/input";
 
 interface ShopImageFormProps {
   handleBack: () => void;
@@ -84,24 +85,35 @@ export default function ShopImageForm({
         window.location.replace("/");
       } else {
         const errorMessage = await response.text();
-        setUploading(false)
+        setUploading(false);
         alert(`Shop creation failed: ${errorMessage}`);
       }
     }
   };
-
 
   return (
     <div>
       <label htmlFor="logo" className="text-sm font-medium text-gray-700">
         Logo*
       </label>
-      <input
+      {/* <input
         type="file"
         accept=".jpg, .jpeg, .png, .avif"
         name="logo"
         id="logo"
         className="p-4 mb-4 w-full border border-gray-300 focus:border-black outline-none rounded-md"
+        onChange={(e) => {
+          if (e.target.files) {
+            setLogo(URL.createObjectURL(e.target.files[0]));
+          }
+        }}
+      /> */}
+      <Input
+        id="logo"
+        name="logo"
+        accept=".jpg, .jpeg, .png, .avif"
+        type="file"
+        className="mb-4"
         onChange={(e) => {
           if (e.target.files) {
             setLogo(URL.createObjectURL(e.target.files[0]));
@@ -157,12 +169,12 @@ export default function ShopImageForm({
       <label htmlFor="banner" className="text-sm font-medium text-gray-700">
         Banner
       </label>
-      <input
+      <Input
         type="file"
         accept=".jpg, .jpeg, .png"
         name="banner"
         id="banner"
-        className="p-4 mb-4 w-full border border-gray-300 focus:border-black outline-none rounded-md"
+        className="mb-4"
         onChange={(e) => {
           if (e.target.files) {
             setBanner(URL.createObjectURL(e.target.files[0]));
@@ -223,23 +235,25 @@ export default function ShopImageForm({
           Back
         </button>
         {uploading ? (
-          <div className="bg-bgGreen items-center flex rounded cursor-default font-bold text-white col-span-2 p-2"><MoonLoader
-          color={"#ffffff"}
-          cssOverride={{
-            display: "block",
-            margin: "0 auto",
-          }}
-          size={15}
-          aria-label="Loading"
-          data-testid="loader"
-        /></div>
+          <div className="bg-bgGreen items-center flex rounded cursor-default font-bold text-white col-span-2 p-2">
+            <MoonLoader
+              color={"#ffffff"}
+              cssOverride={{
+                display: "block",
+                margin: "0 auto",
+              }}
+              size={15}
+              aria-label="Loading"
+              data-testid="loader"
+            />
+          </div>
         ) : (
           <button
             disabled={!shopName || !description || croppedLogo === null}
             onClick={() => {
-              setUploading(true)
-              createShop()
-            } }
+              setUploading(true);
+              createShop();
+            }}
             className={
               shopName && description && croppedLogo
                 ? "bg-bgGreen rounded font-bold text-white col-span-2 p-2"
