@@ -36,7 +36,7 @@ export default function Newshop() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-12 bg-[#e4d5b7]">
+    <div className="min-h-screen flex flex-col items-center p-4 2xl:p-12 bg-[#e4d5b7]">
       <div className="flex gap-2 m-2">
         <span
           className={
@@ -53,7 +53,7 @@ export default function Newshop() {
           }
         ></span>
       </div>
-      <div className="bg-white rounded-lg p-4 w-1/4">
+      <div className="bg-white rounded-lg p-4 2xl:w-1/4">
         <h2 className="text-2xl text-center font-bold mb-4">
           Create a new Shop
         </h2>
