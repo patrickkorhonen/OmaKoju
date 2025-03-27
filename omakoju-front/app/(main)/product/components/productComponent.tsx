@@ -27,12 +27,6 @@ const imageUrl = [
   "/photos/taulu.jpg",
   "/photos/kamera.jpg",
   "/photos/majakka.jpg",
-  "/photos/taulu.jpg",
-  "/photos/kamera.jpg",
-  "/photos/majakka.jpg",
-  "/photos/taulu.jpg",
-  "/photos/kamera.jpg",
-  "/photos/majakka.jpg",
 ];
 
 export default function ProductComponent({ id }: ProductComponentProps) {
@@ -119,7 +113,7 @@ export default function ProductComponent({ id }: ProductComponentProps) {
             <div className="grid grid-cols-3 ">
               <div className="sm:col-span-3 2xl:col-span-2">
                 <p className="text-sm">{product.shop.shopName}</p>
-                <h1 className="text-4xl">{product.name}</h1>
+                <p className="text-4xl">{product.name}</p>
                 <div className="flex flex-col gap-8 my-8">
                   <p className="text-xl tracking-wide">{product.price} €</p>
                   <p className="">Stock: {product.stock}</p>

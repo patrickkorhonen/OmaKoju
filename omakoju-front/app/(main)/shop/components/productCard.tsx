@@ -18,7 +18,7 @@ type product = {
 export default function ProductCard({ product }: product) {
   return (
     <div
-      className={`shadow-lg relative shadow-gray-300 hover:shadow-gray-400 rounded-xl ${
+      className={`shadow-lg relative shadow-gray-300 hover:shadow-gray-400 rounded-lg ${
         product.isActive ? "" : "opacity-40"
       }`}
     >

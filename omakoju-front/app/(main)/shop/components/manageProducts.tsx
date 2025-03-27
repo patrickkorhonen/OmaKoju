@@ -102,13 +102,18 @@ export default function ManageProducts({
                         <label htmlFor="price" className="w-1/5">
                           Price
                         </label>
+                        <div className="flex items-center flex-1">
+                        <span className="p-2 bg-gray-200 border border-gray-300 rounded-l">
+                          €
+                        </span>
                         <input
                           id="price"
                           type="number"
                           value={newPrice}
                           onChange={(e) => setNewPrice(Number(e.target.value))}
-                          className="border outline-0 p-2 rounded flex-1 focus:border-black"
+                          className="border-t border-r border-b outline-0 p-2 rounded-r flex-1 focus:border-black"
                         />
+                        </div>
                       </span>
                       <span className="flex gap-4 items-center">
                         <label htmlFor="stock" className="w-1/5">
