@@ -92,7 +92,7 @@ export default function Dashboard() {
       </div>
 
       {/* Statistics */}
-      <h2 className="text-2xl font-semibold mt-10 mb-4">Statistics</h2>
+      <h1 className="text-2xl font-semibold mt-10 mb-4">Statistics</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="p-4 shadow-md">
           <h2 className="flex justify-between items-center">
