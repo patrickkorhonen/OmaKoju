@@ -15,24 +15,30 @@ import MoonLoader from "react-spinners/MoonLoader";
 
 import { Dispatch, SetStateAction, useState } from "react";
 import { Product } from "@/interface";
+import { Input } from "@/components/ui/input";
+import Image from "next/image";
+import { TiDelete } from "react-icons/ti";
 
 type addProduct = {
   shopId: string;
   products: Product[];
   setProducts: Dispatch<SetStateAction<Product[]>>;
-}
+};
 
-export default function AddProductDialog({ shopId, products, setProducts }: addProduct) {
+export default function AddProductDialog({
+  shopId,
+  products,
+  setProducts,
+}: addProduct) {
   const { toast } = useToast();
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
-  const [stock, setStock] = useState<string | null>();
-  //const [imageUrl, setImageUrl] = useState<null | string>(null);
+  const [stock, setStock] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<null | string[]>(null);
   const [uploading, setUploading] = useState(false);
 
   const addProduct = async () => {
     if (shopId && name && price && stock) {
-      console.log("ollaanko täällä")
       const response = await CreateProduct(
         Number(shopId),
         name,
@@ -41,10 +47,9 @@ export default function AddProductDialog({ shopId, products, setProducts }: addP
         null
       );
       if (response && response.ok) {
-        const data = await response.json()
-        console.log("123456789", data.product)
+        const data = await response.json();
         setUploading(false);
-        setProducts([...products, data.product])
+        setProducts([...products, data.product]);
         toast({
           className:
             "bg-green-500 rounded-none border-0 text-white font-bold p-8",
@@ -66,76 +71,124 @@ export default function AddProductDialog({ shopId, products, setProducts }: addP
       <DialogTrigger className="border-2 border-black rounded p-2 w-full bg-black text-white font-bold">
         Add Product +
       </DialogTrigger>
-      <DialogContent className="bg-white">
+      <DialogContent className="bg-white sm:w-4/6 md:w-1/2 2xl:w-2/5">
         <DialogHeader>
           <DialogTitle className="mb-4">Add a product</DialogTitle>
-          <div>
-            <label
-              htmlFor="productName"
-              className="text-sm font-medium text-gray-700"
-            >
-              Product Name*
-            </label>
-            <input
-              type="text"
-              name="productName"
-              id="productName"
-              className="mb-2 p-2 w-full border border-gray-300 focus:border-black outline-none rounded-md"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <label
-              htmlFor="productPrice"
-              className="text-sm font-medium text-gray-700"
-            >
-              Product Price*
-            </label>
-            <div className="flex items-center mb-2">
-              <span className="p-2 bg-gray-200 border border-gray-300 rounded-l-md">
-                €
-              </span>
-              <input
-                type="number"
-                name="productPrice"
-                id="productPrice"
-                className="p-2 w-full border-t border-r border-b border-gray-300 focus:border-black outline-none rounded-r-md"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                min="0"
-                step="0.01"
-              />
-            </div>
-            <label
-              htmlFor="productStock"
-              className="text-sm font-medium text-gray-700"
-            >
-              Product Stock*
-            </label>
+        </DialogHeader>
+        <div className="">
+          <label
+            htmlFor="productName"
+            className="text-sm font-medium text-gray-700"
+          >
+            Product Name
+          </label>
+          <input
+            type="text"
+            name="productName"
+            id="productName"
+            className="mb-2 p-2 w-full border border-gray-300 focus:border-black outline-none rounded-md"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <label
+            htmlFor="productPrice"
+            className="text-sm font-medium text-gray-700"
+          >
+            Product Price
+          </label>
+          <div className="flex items-center mb-2">
+            <span className="p-2 bg-gray-200 border border-gray-300 rounded-l-md">
+              €
+            </span>
             <input
               type="number"
+              name="productPrice"
+              id="productPrice"
+              className="p-2 w-full border-t border-r border-b border-gray-300 focus:border-black outline-none rounded-r-md"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
               min="0"
-              step="1"
-              name="productStock"
-              id="productStock"
-              className="mb-2 p-2 w-full border border-gray-300 focus:border-black outline-none rounded-md"
-              value={stock ? stock : ""}
-              onChange={(e) => setStock(e.target.value)}
+              step="0.01"
             />
           </div>
-        </DialogHeader>
-        <DialogFooter>
+          <label
+            htmlFor="productStock"
+            className="text-sm font-medium text-gray-700"
+          >
+            Product Stock
+          </label>
+          <input
+            type="number"
+            min="0"
+            step="1"
+            name="productStock"
+            id="productStock"
+            className="mb-2 p-2 w-full border border-gray-300 focus:border-black outline-none rounded-md"
+            value={stock ? stock : ""}
+            onChange={(e) => setStock(e.target.value)}
+          />
+          <label
+            htmlFor="productStock"
+            className="text-sm font-medium text-gray-700"
+          >
+            Images
+          </label>
+          <Input
+            id="images"
+            name="images"
+            accept=".jpg, .jpeg, .png, .avif"
+            type="file"
+            className="mb-1"
+            multiple
+            onChange={(e) => {
+              const filesBefore = e.target.files;
+              let files = null;
+              if (filesBefore) {
+                files = Array.from(filesBefore).filter(
+                  (file) => file.size < 2097153
+                );
+              }
+              if (files && files.length + (imageUrl?.length || 0) <= 6) {
+                const imageArray = Array.from(files).map((file) =>
+                  URL.createObjectURL(file)
+                );
+                setImageUrl(
+                  imageUrl ? imageUrl.concat(imageArray) : imageArray
+                );
+              }
+            }}
+          />
+          <p className="text-xs text-slate-500 mb-4">
+            Add up to 6 images. Max image size 2 MB.
+          </p>
+
+          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 2xl:flex gap-2 overflow-x-auto">
+            {imageUrl &&
+              imageUrl.map((image, index) => (
+                <div key={index}>
+                  <div className="relative h-20 w-20">
+                    <Image
+                      src={image}
+                      alt={`image ${index}`}
+                      layout="fill"
+                      objectFit="contain"
+                      className="rounded-xl border h-20 w-full z-0"
+                    />
+                    <TiDelete onClick={() => setImageUrl((prev) => prev?.filter((_, i) => i !== index) || null)} className="text-red-400 cursor-pointer absolute right-0 top-0 text-2xl outline-0 border-0" />
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        <DialogFooter className="flex flex-row justify-between">
+          <DialogClose
+            className="px-4 py-2 rounded cursor-pointer text-white font-semibold bg-red-500"
+            asChild
+          >
+            <p>Close</p>
+          </DialogClose>
           <DialogClose asChild>
-            {/* <button
-              onClick={() => {
-                setUploading(true)
-                addProduct()
-              }}
-              className="bg-bgGreen hover:bg-bgGreenHover px-4 py-2 text-white font-semibold"
-            >
-              Add
-            </button> */}
-            <div className="flex justify-between w-full">
-            <button className="px-4 py-2 rounded text-white font-semibold bg-red-500">Close</button>
             {uploading ? (
               <div className="bg-bgGreen items-center flex rounded cursor-default font-bold text-white col-span-2 p-2">
                 <MoonLoader
@@ -165,7 +218,6 @@ export default function AddProductDialog({ shopId, products, setProducts }: addP
                 Add
               </button>
             )}
-            </div>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
