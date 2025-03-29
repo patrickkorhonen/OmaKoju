@@ -18,6 +18,7 @@ import { Product } from "@/interface";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { TiDelete } from "react-icons/ti";
+import { BsUpload } from "react-icons/bs";
 
 type addProduct = {
   shopId: string;
@@ -34,7 +35,7 @@ export default function AddProductDialog({
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [stock, setStock] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<null | string[]>(null);
+  const [imageUrl, setImageUrl] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
 
   const addProduct = async () => {
@@ -65,6 +66,22 @@ export default function AddProductDialog({
       }
     }
   };
+
+  const updateImages = (fileList: FileList | null) => {
+    let files: File[] = [];
+    if (fileList) {
+      files = Array.from(fileList).filter(
+        (file) => file.size < 2097153
+      );
+    }
+    if (files.length + imageUrl.length <= 6) {
+      const imageArray = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      const newImageArray = imageUrl.concat(imageArray)
+      setImageUrl(newImageArray);
+    }
+  }
 
   return (
     <Dialog>
@@ -123,40 +140,26 @@ export default function AddProductDialog({
             step="1"
             name="productStock"
             id="productStock"
-            className="mb-2 p-2 w-full border border-gray-300 focus:border-black outline-none rounded-md"
+            className="mb-4 p-2 w-full border border-gray-300 focus:border-black outline-none rounded-md"
             value={stock ? stock : ""}
             onChange={(e) => setStock(e.target.value)}
           />
           <label
-            htmlFor="productStock"
-            className="text-sm font-medium text-gray-700"
+            htmlFor="images"
+            className="text-sm font-medium flex items-center gap-4 p-4 w-max mb-1 rounded-md cursor-pointer border text-gray-700 border-gray-300 hover:bg-gray-100"
           >
-            Images
+            <BsUpload />
+            Upload Images
           </label>
           <Input
             id="images"
             name="images"
             accept=".jpg, .jpeg, .png, .avif"
             type="file"
-            className="mb-1"
+            className="hidden"
             multiple
-            onChange={(e) => {
-              const filesBefore = e.target.files;
-              let files = null;
-              if (filesBefore) {
-                files = Array.from(filesBefore).filter(
-                  (file) => file.size < 2097153
-                );
-              }
-              if (files && files.length + (imageUrl?.length || 0) <= 6) {
-                const imageArray = Array.from(files).map((file) =>
-                  URL.createObjectURL(file)
-                );
-                setImageUrl(
-                  imageUrl ? imageUrl.concat(imageArray) : imageArray
-                );
-              }
-            }}
+            onChange={(e) => updateImages(e.target.files)}
+            value=""
           />
           <p className="text-xs text-slate-500 mb-4">
             Add up to 6 images. Max image size 2 MB.
