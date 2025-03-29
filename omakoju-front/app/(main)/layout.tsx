@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cabin, Newsreader } from "next/font/google";
+import { Newsreader, Lato } from "next/font/google";
 import "../globals.css";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
@@ -11,9 +11,11 @@ import { Toaster } from "@/components/ui/toaster";
 //   subsets: ["latin"],
 // });
 
-const cabin = Cabin({
-  variable: "--font-cabin",
-  subsets: ["latin"]
+
+const lato = Lato({
+  variable: "--font-lato",
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"]
 })
 
 const newsreader = Newsreader({
@@ -35,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <UserProvider>
-        <body className={`${cabin.className} ${newsreader.variable} antialiased min-h-screen flex flex-col`}>
+        <body className={`${lato.className} ${newsreader.variable} antialiased min-h-screen flex flex-col`}>
           <div className="hidden sticky top-0 z-10 lg:block">
             <Navbar />
           </div>
