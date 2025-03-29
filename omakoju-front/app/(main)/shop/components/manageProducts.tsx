@@ -65,7 +65,14 @@ export default function ManageProducts({
                 className="bg-slate-100 flex justify-between items-center rounded p-4 my-4"
               >
                 <p className="">{product.name}</p>
-
+                <div className="flex gap-4 items-center">
+                <p
+                  className={`text-xs ${
+                    product.isActive ? "text-green-600" : "text-red-600"
+                  }`}
+                >
+                  {product.isActive ? "Active" : "Inactive"}
+                </p>
                 <Dialog>
                   <DialogTrigger
                     onClick={() => {
@@ -178,6 +185,7 @@ export default function ManageProducts({
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
+                </div>
               </div>
             ))}
           </AccordionContent>
