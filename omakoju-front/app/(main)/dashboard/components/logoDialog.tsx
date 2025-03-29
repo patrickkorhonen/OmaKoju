@@ -15,6 +15,7 @@ import { useState } from "react";
 import { Point, Area } from "react-easy-crop";
 import getCroppedImgLogo from "@/app/components/cropImageLogo";
 import { Input } from "@/components/ui/input";
+import { BsUpload } from "react-icons/bs";
 
 interface logoInterface {
   logo: string;
@@ -65,18 +66,26 @@ export default function LogoDialog({ logo, handleNewLogo }: logoInterface) {
             <DialogTitle>Change the logo of your shop.</DialogTitle>
           </DialogHeader>
           <p>Your current logo</p>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 sm:gap-8 items-center">
             <Image
               className="border rounded-full"
               src={logo || "/photos/computer-profile.avif"}
               alt={"logo"}
-              width={0}
-              height={0}
-              style={{ width: "30%", height: "auto" }}
+              width={150}
+              height={150}
+              //style={{ width: "30%", height: "auto" }}
             />
+                  <label
+                    htmlFor="logo"
+                    className="text-sm font-medium flex items-center gap-4 p-4 w-max justify-center rounded-md cursor-pointer border text-gray-700 border-gray-300 hover:bg-gray-100"
+                  >
+                    <BsUpload className="hidden sm:block"/>
+                    Upload New Logo
+                  </label>
             <Input
               type="file"
               accept=".jpg, .jpeg, .png, .avif"
+              className="hidden"
               name="logo"
               id="logo"
               //className="p-4 w-full border border-gray-300 focus:border-black outline-none rounded-md"

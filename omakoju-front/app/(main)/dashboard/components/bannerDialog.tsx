@@ -15,6 +15,7 @@ import { useState } from "react";
 import { Point, Area } from "react-easy-crop";
 import getCroppedImgBanner from "@/app/components/cropImageBanner";
 import { Input } from "@/components/ui/input";
+import { BsUpload } from "react-icons/bs";
 
 interface bannerInterface {
   banner: string;
@@ -70,16 +71,24 @@ export default function BannerDialog({
           <p>Your current banner</p>
           <div className="flex flex-col gap-4 items-center">
             <Image
-              className="border rounded-xl"
+              className="border"
               src={banner || "/photos/default_banner.png"}
               alt={"banner"}
               width={0}
               height={0}
               style={{ width: "100%", height: "auto" }}
             />
+            <label
+              htmlFor="banner"
+              className="text-sm font-medium flex items-center gap-4 p-4 w-max justify-center rounded-md cursor-pointer border text-gray-700 border-gray-300 hover:bg-gray-100"
+            >
+              <BsUpload className="hidden sm:block" />
+              Upload New Banner
+            </label>
             <Input
               type="file"
               accept=".jpg, .jpeg, .png, .avif"
+              className="hidden"
               name="banner"
               id="banner"
               //className="p-4 w-full border border-gray-300 focus:border-black outline-none rounded-md"
