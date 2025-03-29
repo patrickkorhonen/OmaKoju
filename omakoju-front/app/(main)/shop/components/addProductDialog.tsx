@@ -88,7 +88,7 @@ export default function AddProductDialog({
       <DialogTrigger className="border-2 border-black rounded p-2 w-full bg-black text-white font-bold">
         Add Product +
       </DialogTrigger>
-      <DialogContent className="bg-white sm:w-4/6 md:w-1/2 2xl:w-2/5">
+      <DialogContent className="bg-white ">
         <DialogHeader>
           <DialogTitle className="mb-4">Add a product</DialogTitle>
         </DialogHeader>
@@ -103,7 +103,7 @@ export default function AddProductDialog({
             type="text"
             name="productName"
             id="productName"
-            className="mb-2 p-2 w-full border border-gray-300 focus:border-black outline-none rounded-md"
+            className="mb-2 p-2 w-full border border-gray-300 focus:border-border-gray-400 outline-none rounded-md"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -121,7 +121,7 @@ export default function AddProductDialog({
               type="number"
               name="productPrice"
               id="productPrice"
-              className="p-2 w-full border-t border-r border-b border-gray-300 focus:border-black outline-none rounded-r-md"
+              className="p-2 w-full border-t border-r border-b border-gray-300 focus:border-gray-400 outline-none rounded-r-md"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               min="0"
@@ -140,7 +140,7 @@ export default function AddProductDialog({
             step="1"
             name="productStock"
             id="productStock"
-            className="mb-4 p-2 w-full border border-gray-300 focus:border-black outline-none rounded-md"
+            className="mb-4 p-2 w-full border border-gray-300 focus:border-gray-400 outline-none rounded-md"
             value={stock ? stock : ""}
             onChange={(e) => setStock(e.target.value)}
           />
