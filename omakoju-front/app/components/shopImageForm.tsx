@@ -8,6 +8,7 @@ import getCroppedImgLogo from "./cropImageLogo";
 import getCroppedImgBanner from "./cropImageBanner";
 import MoonLoader from "react-spinners/MoonLoader";
 import { Input } from "@/components/ui/input";
+import { BsUpload } from "react-icons/bs";
 
 interface ShopImageFormProps {
   handleBack: () => void;
@@ -93,27 +94,20 @@ export default function ShopImageForm({
 
   return (
     <div>
-      <label htmlFor="logo" className="text-sm font-medium text-gray-700">
-        Logo*
+      <p className="text-sm font-medium text-gray-700 mb-2">Logo*</p>
+      <label
+        htmlFor="logo"
+        className="text-sm font-medium flex items-center gap-4 p-4 w-full justify-center mb-4 rounded-md cursor-pointer border text-gray-700 border-gray-300 hover:bg-gray-100"
+      >
+        <BsUpload />
+        Upload Logo
       </label>
-      {/* <input
-        type="file"
-        accept=".jpg, .jpeg, .png, .avif"
-        name="logo"
-        id="logo"
-        className="p-4 mb-4 w-full border border-gray-300 focus:border-black outline-none rounded-md"
-        onChange={(e) => {
-          if (e.target.files) {
-            setLogo(URL.createObjectURL(e.target.files[0]));
-          }
-        }}
-      /> */}
       <Input
         id="logo"
         name="logo"
         accept=".jpg, .jpeg, .png, .avif"
         type="file"
-        className="mb-4"
+        className="hidden"
         onChange={(e) => {
           if (e.target.files) {
             setLogo(URL.createObjectURL(e.target.files[0]));
@@ -166,15 +160,20 @@ export default function ShopImageForm({
           )}
         </div>
       )}
-      <label htmlFor="banner" className="text-sm font-medium text-gray-700">
-        Banner
+      <p className="text-sm font-medium text-gray-700 mb-2">Banner</p>
+      <label
+        htmlFor="banner"
+        className="text-sm font-medium flex items-center gap-4 p-4 w-full justify-center mb-4 rounded-md cursor-pointer border text-gray-700 border-gray-300 hover:bg-gray-100"
+      >
+        <BsUpload />
+        Upload Banner
       </label>
       <Input
         type="file"
         accept=".jpg, .jpeg, .png"
         name="banner"
         id="banner"
-        className="mb-4"
+        className="hidden"
         onChange={(e) => {
           if (e.target.files) {
             setBanner(URL.createObjectURL(e.target.files[0]));
