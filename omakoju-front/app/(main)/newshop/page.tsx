@@ -53,7 +53,7 @@ export default function Newshop() {
           }
         ></span>
       </div>
-      <div className="bg-white rounded-lg p-4 2xl:w-1/4">
+      <div className="bg-white rounded-lg p-4 w-full sm:w-2/3 lg:w-1/2 xl:w-1/3 2xl:w-1/4">
         <h2 className="text-2xl text-center font-bold mb-4">
           Create a new Shop
         </h2>
@@ -137,7 +137,7 @@ export default function Newshop() {
                       current progress.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
-                  <AlertDialogFooter className="flex justify-between w-full">
+                  <AlertDialogFooter className="flex flex-row justify-between w-full">
                     <div className="w-full">
                     <AlertDialogCancel className="border-0 shadow bg-slate-50 rounded">No</AlertDialogCancel>
                     </div>
