@@ -7,7 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export const uploadLogo = async (imageBase64, shopName) => {
+export const uploadLogo = async (imageBase64) => {
   try {
     const uploadResult = await cloudinary.uploader
       .upload(
@@ -31,7 +31,7 @@ export const uploadLogo = async (imageBase64, shopName) => {
   }
 };
 
-export const uploadBanner = async (imageBase64, shopName) => {
+export const uploadBanner = async (imageBase64) => {
     try {
       const uploadResult = await cloudinary.uploader
         .upload(
@@ -54,3 +54,27 @@ export const uploadBanner = async (imageBase64, shopName) => {
       res.status(500).json({ error: "Failed to upload image" });
     }
   };
+
+  export const uploadProductImages = async (images, shopId, name) => {
+    try {
+      console.log('tääällä on kuvia', images);
+      let returnedImages = []
+      for (let i = 0; i < images.length; i++) {
+      const uploadImage = await cloudinary.uploader
+        .upload(
+          images[i],
+          {
+            folder: `${shopId}/products/${name}`
+          }
+        )
+        .catch((error) => {
+          console.log(error);
+        });
+        returnedImages.push(uploadImage.secure_url)
+      }
+      return returnedImages
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to upload images" });
+    }
+  }
