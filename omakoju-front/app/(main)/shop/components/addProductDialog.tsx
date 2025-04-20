@@ -35,22 +35,23 @@ export default function AddProductDialog({
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [stock, setStock] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string[]>([]);
+  const [images, setImages] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
 
   const addProduct = async () => {
-    if (shopId && name && price && stock) {
+    if (shopId && name && price && stock && images) {
       const response = await CreateProduct(
         Number(shopId),
         name,
         Number(price),
         Number(stock),
-        null
+        images
       );
       if (response && response.ok) {
         const data = await response.json();
+        console.log("käytä tätä", data)
         setUploading(false);
-        setProducts([...products, data.product]);
+        setProducts([...products, data.result]);
         toast({
           className:
             "bg-green-500 rounded-none border-0 text-white font-bold p-8",
@@ -70,18 +71,33 @@ export default function AddProductDialog({
   const updateImages = (fileList: FileList | null) => {
     let files: File[] = [];
     if (fileList) {
-      files = Array.from(fileList).filter(
-        (file) => file.size < 2097153
-      );
+      files = Array.from(fileList).filter((file) => file.size < 2097153);
     }
-    if (files.length + imageUrl.length <= 6) {
-      const imageArray = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
-      const newImageArray = imageUrl.concat(imageArray)
-      setImageUrl(newImageArray);
+  
+    if (files.length + images.length <= 6) {
+      const newImageArray: string[] = [];
+      let loadedCount = 0;
+  
+      files.forEach((file) => {
+        const reader = new FileReader();
+  
+        reader.onloadend = () => {
+          if (reader.result) {
+            newImageArray.push(reader.result as string);
+          }
+  
+          loadedCount++;
+          if (loadedCount === files.length) {
+            const finalImages = images.concat(newImageArray);
+            setImages(finalImages);
+          }
+        };
+  
+        reader.readAsDataURL(file);
+      });
     }
-  }
+  };
+  
 
   return (
     <Dialog>
@@ -164,10 +180,9 @@ export default function AddProductDialog({
           <p className="text-xs text-slate-500 mb-4">
             Add up to 6 images. Max image size 2 MB.
           </p>
-
           <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 2xl:flex gap-2 overflow-x-auto">
-            {imageUrl &&
-              imageUrl.map((image, index) => (
+            {images &&
+              images.map((image, index) => (
                 <div key={index}>
                   <div className="relative h-20 w-20">
                     <Image
@@ -177,7 +192,7 @@ export default function AddProductDialog({
                       objectFit="contain"
                       className="rounded-xl border h-20 w-full z-0"
                     />
-                    <TiDelete onClick={() => setImageUrl((prev) => prev?.filter((_, i) => i !== index) || null)} className="text-red-400 cursor-pointer absolute right-0 top-0 text-2xl outline-0 border-0" />
+                    <TiDelete onClick={() => setImages((prev) => prev?.filter((_, i) => i !== index) || null)} className="text-red-400 cursor-pointer absolute right-0 top-0 text-2xl outline-0 border-0" />
                   </div>
                 </div>
               ))}
