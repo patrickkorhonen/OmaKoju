@@ -6,14 +6,6 @@ type product = {
   product: Product;
 };
 
-// interface product {
-//   id: number;
-//   shopId: string;
-//   name: string;
-//   price: number;
-//   stock: number;
-//   imageUrl: string[] | null;
-// }
 
 export default function ProductCard({ product }: product) {
   return (
@@ -27,7 +19,7 @@ export default function ProductCard({ product }: product) {
       )}
       <div className="relative w-full h-40 sm:h-52">
         <Image
-          src={product.imageUrl ? product.imageUrl[0] : "/photos/kamera.jpg"}
+          src={product.imageUrl.length > 0 ? product.imageUrl[0] : "/photos/kamera.jpg"}
           alt={"tuote"}
           layout="fill"
           objectFit="cover"
