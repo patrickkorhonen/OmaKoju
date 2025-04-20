@@ -3,7 +3,7 @@ export async function CreateProduct(
   name: string,
   price: number,
   stock: number,
-  imageUrl: string | null
+  images: string[],
 ) {
   try {
     const response = await fetch("http://localhost:4000/product/add", {
@@ -12,7 +12,7 @@ export async function CreateProduct(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ shopId, name, price, stock, imageUrl }),
+      body: JSON.stringify({ shopId, name, price, stock, images }),
     });
     const data = await response.json();
     if (response.ok) {
