@@ -1,7 +1,8 @@
 import prisma from "../prismaClient.js";
+import { uploadProductImages } from "./uploadController.js";
 
 export const addProduct = async (req, res) => {
-  const { shopId, name, price, stock, imageUrl } = req.body;
+  const { shopId, name, price, stock, images } = req.body;
   const UID = req.userId;
 
   try {
@@ -16,18 +17,24 @@ export const addProduct = async (req, res) => {
       return res.status(409).send({ message: "Unauthorized action" });
     }
 
-    const product = await prisma.product.create({
-      data: {
-        shopId,
-        name,
-        price,
-        stock,
-        imageUrl,
+    const result = await prisma.$transaction(async (tx) => {
+      const imageUpload = await uploadProductImages(images, shopId, name)
+
+      const product = await tx.product.create({
+        data: {
+          shopId,
+          name,
+          price,
+          stock,
+          imageUrl: imageUpload,
       },
     });
+    return product
+  })
+    console.log('jooooooo', result);
 
     res.json({
-      product,
+      result,
     });
   } catch (err) {
     console.log("error", err);
