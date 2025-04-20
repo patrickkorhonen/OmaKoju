@@ -21,11 +21,11 @@ export const createShop = async (req, res) => {
         .send({ message: "Shop with this name already exists" });
     }
     const result = await prisma.$transaction(async (tx) => {
-      const logoUpload = await uploadLogo(croppedLogo, shopName);
+      const logoUpload = await uploadLogo(croppedLogo);
       let bannerUpload = null;
 
       if (croppedBanner) {
-        bannerUpload = await uploadBanner(croppedBanner, shopName);
+        bannerUpload = await uploadBanner(croppedBanner);
       }
 
       const shop = await tx.shop.create({
