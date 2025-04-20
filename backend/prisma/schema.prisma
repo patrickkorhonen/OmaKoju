@@ -48,7 +48,7 @@ model Product {
   name        String  
   price       Float  
   stock       Int  
-  imageUrl    String?
+  imageUrl    String[]
   isActive    Boolean @default(true)
   orderItems  OrderItem[] 
   reviews     Review[]  
