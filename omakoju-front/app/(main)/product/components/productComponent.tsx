@@ -23,11 +23,11 @@ interface ProductComponentProps {
 //   imageUrl: string[];
 // }
 
-const imageUrl = [
-  "/photos/taulu.jpg",
-  "/photos/kamera.jpg",
-  "/photos/majakka.jpg",
-];
+// const imageUrl = [
+//   "/photos/taulu.jpg",
+//   "/photos/kamera.jpg",
+//   "/photos/majakka.jpg",
+// ];
 
 export default function ProductComponent({ id }: ProductComponentProps) {
   const [imageNumber, setImageNumber] = useState<number>(0);
@@ -48,7 +48,7 @@ export default function ProductComponent({ id }: ProductComponentProps) {
   }, [id]);
 
   const handleNextImage = () => {
-    if (imageNumber == imageUrl.length - 1) {
+    if (imageNumber == product!.imageUrl.length - 1) {
       setImageNumber(0);
     } else {
       setImageNumber(imageNumber + 1);
@@ -57,7 +57,7 @@ export default function ProductComponent({ id }: ProductComponentProps) {
 
   const handlePreviousImage = () => {
     if (imageNumber == 0) {
-      setImageNumber(imageUrl.length - 1);
+      setImageNumber(product!.imageUrl.length - 1);
     } else {
       setImageNumber(imageNumber - 1);
     }
@@ -70,7 +70,7 @@ export default function ProductComponent({ id }: ProductComponentProps) {
             <div className="sm:h-[60vh] h-60 ">
               <div className="relative w-full h-full bg-gray-50 rounded-xl">
                 <Image
-                  src={imageUrl[imageNumber]}
+                  src={product.imageUrl[imageNumber]}
                   alt={"tuote"}
                   layout="fill"
                   objectFit="contain"
@@ -92,7 +92,7 @@ export default function ProductComponent({ id }: ProductComponentProps) {
                 </div>
               </div>
               <div className="hidden sm:flex gap-4 overflow-x-auto my-4 ">
-                {imageUrl.map((image, index) => (
+                {product.imageUrl.map((image, index) => (
                   <div key={index}>
                     <button
                       onClick={() => setImageNumber(index)}
