@@ -10,25 +10,6 @@ interface ProductComponentProps {
   id: string;
 }
 
-// type Product = {
-//   product: product;
-// };
-
-// interface product {
-//   id: string;
-//   shopId: string;
-//   name: string;
-//   price: number;
-//   stock: number;
-//   imageUrl: string[];
-// }
-
-// const imageUrl = [
-//   "/photos/taulu.jpg",
-//   "/photos/kamera.jpg",
-//   "/photos/majakka.jpg",
-// ];
-
 export default function ProductComponent({ id }: ProductComponentProps) {
   const [imageNumber, setImageNumber] = useState<number>(0);
   const [product, setProduct] = useState<Product>();
